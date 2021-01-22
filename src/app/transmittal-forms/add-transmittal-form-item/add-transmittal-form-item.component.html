@@ -1,0 +1,10 @@
+<form (submit)='handleFormSubmit()'>
+  <h1 mat-dialog-title>Add New Item</h1>
+  <div mat-dialog-content>
+    <app-transmittal-form-item [formControl]='addTransmittalFormItem' [projectId]='data.projectId'></app-transmittal-form-item>
+  </div>
+  <div mat-dialog-footer>
+    <button mat-raised-button mat-dialog-close type='button'>Close</button> &nbsp;
+    <button mat-raised-button type='submit' color='primary' [disabled]='addTransmittalFormItem.invalid'>Submit</button>
+  </div>
+</form>

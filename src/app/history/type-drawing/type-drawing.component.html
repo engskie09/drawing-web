@@ -1,0 +1,19 @@
+<div class="type-drawing-history-page">
+  <div class="type-drawing-history">
+    <mat-card>
+      <h2 mat-card-title>History</h2>
+      <div mat-card-content>
+        <app-type-drawing-history 
+          [drawing]='typeDrawing'
+          [audits]='audits'
+          *ngIf='typeDrawing'
+          class='history'
+          >
+        </app-type-drawing-history>
+        <div class="tender-drawing-history__empty" *ngIf='!loading && !audits.length'>
+          <p class='text-center'>There are no history for this drawing yet...</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

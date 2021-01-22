@@ -1,0 +1,15 @@
+<swiper 
+  [config]="swiperConfig"
+  class="drawing-summary-list"
+>
+  <div 
+    class="drawing-summary-list__col"
+    *ngFor='let summary of drawingTypeSummaries'
+  >
+    <app-drawing-summary
+      [summary]='summary'
+      [title]='summary.type'
+      class='drawing-summary-list__summary'
+    ></app-drawing-summary>
+  </div>
+</swiper>

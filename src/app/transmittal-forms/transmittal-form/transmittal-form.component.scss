@@ -1,0 +1,36 @@
+.checkboxes-row {
+  margin-top: 1em;
+}
+
+.checkbox-container {
+  margin-bottom: 1em;
+}
+
+.transmittal-form-items {
+  &__actions {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: right;
+  }
+}
+
+.transmittal-form-type {
+  display: flex;
+  flex-direction: column;
+  
+  mat-radio-button {
+    margin-bottom: 10px;
+  }
+}
+
+.transmittal-form {
+  &__signature {
+    max-width: 500px;
+  }
+
+  &__signature-pad {
+    border: 1px solid #888;
+    border-radius: 4px;
+    margin-bottom: 0.5em;
+  }
+}

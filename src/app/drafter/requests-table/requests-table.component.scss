@@ -1,0 +1,19 @@
+.requests-table {
+  &__status {
+    &--rejected {
+      color: #f44336;
+    }
+
+    &--approved {
+      color: #218838;
+    }
+
+    &--completed {
+      color: #eead71;
+    }
+  }
+
+  &__actions {
+    text-align: right;
+  }
+}

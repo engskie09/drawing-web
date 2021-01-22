@@ -1,0 +1,27 @@
+.summary-title {
+  display: flex;
+  align-items: center;
+
+  .mat-icon {
+    margin-right: .25em;
+  }
+}
+
+.summary-card {
+  margin-bottom: .5em;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.summary {
+  p {
+    margin-top: 0;
+    span {
+      display: inline-block;
+      width: 110px;
+      font-weight: 700;
+    }
+  }
+}

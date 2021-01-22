@@ -1,0 +1,85 @@
+@import '~@angular/material/theming';
+
+.home {
+  position: relative;
+  
+  &__loader-container {
+    height: calc(100vh - 64px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+.project {
+  width: calc(100% - 40px);
+  height: calc(100% - 45px);
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__title {
+    font-size: 1.125em;
+  }
+
+  &__details {
+    opacity: .75;
+    font-size: 0.875em;
+    margin-bottom: 1.5em;
+  }
+
+  &__progress {
+    padding: .25em .5em;
+    background-color: mat-color($mat-green, 50);
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      margin-top: .5em;
+      margin-bottom: 0.5em;
+      font-weight: 700;
+    }
+  }
+}
+
+.actions {
+  a,
+  button {
+    margin-bottom: .875em;
+  }
+}
+
+.projects {
+  &__header {
+    background-color: transparent !important;
+    font-weight: 700;
+    border: 0;
+  }
+
+  &__table {
+    background: transparent;
+  }
+
+  &__heading {
+    font-weight: 700;
+    color: #000;
+  }
+
+  &__row {
+    background: #fff;
+    cursor: pointer;
+  }
+
+  &__status {
+    &--completed {
+      color: #478660;
+    }
+
+    &--in-progress {
+      color: #FF9026;
+    }
+  }
+}

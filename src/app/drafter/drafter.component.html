@@ -1,0 +1,56 @@
+<div class="header">
+  <div 
+    fxLayout='row'
+    fxLayoutAlign='space-between space-between'
+  >
+    <div class="title">
+      <h1>Your Drawing Requests</h1>
+    </div>
+    <div class="actions">
+      <a [routerLink]="['/dashboard/projects']" mat-raised-button color='primary'>View All Projects</a>
+    </div>
+  </div>
+  <div 
+    fxLayout='row'
+    fxLayoutAlign='space-between flex-start'
+  >
+    <div class="header__left">
+      <button mat-stroked-button color='primary' [disabled]='!employeeId' (click)='showNewRequestDrawing()'>
+        <mat-icon>add</mat-icon>
+        New Task
+      </button>
+    </div>
+    <div 
+      class="header__right"
+      fxFlex='0 0 20%'
+    >
+      <h4 class='summary-title'><mat-icon>list_alt</mat-icon>Summary</h4>
+      <mat-card>
+        <app-request-summary 
+          #summary 
+          *ngIf='employeeId && projectId'
+          [projectId]='projectId'
+          [drafterId]='employeeId'>
+        </app-request-summary>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<mat-card class='drafter'>
+  <div mat-card-content>
+    <app-requests-table 
+      #requestsTable
+      (onCompleteSuccess)='handleOnCompleteSuccess()' 
+      [employeeId]='employeeId' 
+      [projectId]='projectId'
+      *ngIf='employeeId && projectId'>
+    </app-requests-table>
+  </div>
+</mat-card>
+
+<swal 
+  #successConfirmation
+  title="Success"
+  icon='success'
+>
+</swal>

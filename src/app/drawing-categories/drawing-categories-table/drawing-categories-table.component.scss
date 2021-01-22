@@ -1,0 +1,27 @@
+.drawing-categories-table {
+  &__actions {
+    text-align: right;
+    width: 33%;
+
+    &--actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    button {
+      margin-right: .25em;
+    }
+  }
+
+  &__progress-container {
+    display: flex;
+    justify-content: center;
+    margin-right: 0.25em;
+    width: 40px;
+  }
+
+  &__progress {
+    display: block;
+  }
+}

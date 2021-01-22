@@ -1,0 +1,39 @@
+<div class="main-layout mat-app-background">
+  <app-header
+    (menuClicked)='toggleMenu()'
+  ></app-header>
+  <mat-sidenav-container>
+    <mat-sidenav 
+      #sidenav 
+      mode='push'
+      [opened]='menuStatus'
+      fixedTopGap='62'
+      fixedInViewport="true"
+      (closed)="setMenu(false)"
+      class='main-layout__sidebar'>
+      <mat-nav-list>
+        <mat-list-item>
+          <a matLine routerLink="/">
+            <button mat-icon-button>
+              <mat-icon>dashboard</mat-icon>
+              Drawing Module
+            </button>
+          </a>
+        </mat-list-item>
+        <mat-list-item>
+          <a matLine [href]="sbheLink" target="_blank" (click)='handleClick()'>
+            <button mat-icon-button>
+              <mat-icon>menu_book</mat-icon>
+              Project Management
+            </button>
+          </a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class='main-layout__content'>
+      <div id="content">
+        <ng-content></ng-content>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,18 @@
+<div class='transmittal-form-item' [formGroup]='transmittalFormItem' cdkFocusRegionStart>
+  <mat-form-field class='form-control'>
+    <mat-label>Drawing</mat-label>
+    <app-drawing-select
+      formControlName='drawing'
+      [projectId]='projectId'  
+    >
+    </app-drawing-select>
+  </mat-form-field>
+  <mat-form-field class='form-control'>
+    <mat-label>Reference No.</mat-label>
+    <input type="text" matInput formControlName='referenceNo'>
+  </mat-form-field>
+  <mat-form-field class='form-control'>
+    <mat-label>Qty</mat-label>
+    <input type="number" matInput formControlName='qty'>
+  </mat-form-field>
+</div>

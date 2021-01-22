@@ -1,0 +1,151 @@
+.drawing-table-container {
+  overflow: auto;
+  max-height: 700px;
+}
+
+.drawing-table {
+  margin-top: 1em;
+  border-collapse: collapse;
+  margin-right: auto;
+  margin-left: auto;
+
+  &__loader {
+    margin: 2em auto;
+  }
+
+  &__status {
+    &--rejected {
+      color: #f44336;
+    }
+
+    &--approved {
+      color: #218838;
+    }
+
+    &--re-submitted {
+      color: #eead71;
+    }
+
+    &--requested {
+      color: #0092ff;
+    }
+  }
+
+  .tender-drawing__heading {
+    background-color: rgba(#FF7C00, .7);
+
+    &--tender {
+      background-color: #fbc3c1;
+      padding-top: .875em;
+      padding-bottom: .875em;
+    }
+
+    &--current {
+      background-color: #c1fbe4;
+    }
+
+    &--shop {
+      background-color: #c1e2ff;
+      min-width: 680px !important;
+    }
+
+    &--as-built {
+      background-color: #ffcc9f;
+    }
+  }
+
+  > tbody,
+  &__main-content {
+    > tr {
+      > td {
+        border-bottom: 1px solid #ddd;
+
+        &:not(:last-child) {
+          border-right: 1px solid #ddd;
+        }
+      }
+    }
+  }
+}
+
+.tender-drawing-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    // border-bottom: 1px solid #ddd;
+
+    th {
+      text-align: center;
+      padding-top: .125em;
+      padding-bottom: .125em;
+      height: 62px;
+    }
+  }
+
+  tbody {
+    tr {
+      // border-bottom: 1px solid #ddd;
+    }
+
+    td {
+      padding-top: .125em;
+      padding-bottom: .125em;
+      height: 40px;
+      word-break: break-all;
+    }
+  }
+
+  &__actions {
+    position: relative;
+  }
+
+  &__info-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__info {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #f44336;
+  }
+}
+
+
+.current-drawing-table {
+  width: 100%;
+
+  tbody {
+    td {
+      text-align: center;
+    }
+  }
+}
+
+.shop-drawing-table {
+  width: 100%;
+}
+
+.cell-centered {
+  text-align: center;
+}
+
+.see-more-cell {
+  vertical-align: center;
+
+  .mat-button {
+    min-width: 0;
+    padding: 0;
+
+    &:hover .mat-button-focus-overlay {
+      opacity: 0 !important;
+    }
+  }
+}

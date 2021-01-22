@@ -1,0 +1,30 @@
+.add-drawing-form {
+    &__col {
+        p {
+            width: 100%;
+        }
+    }
+
+    &__form-group {
+        width: 100%;
+    }
+
+    &__shop-drawing {
+        width: 100%;
+    }
+
+    &__shop-drawing-title {
+      width: 100%;
+      text-align: center;
+      background-color: #c1fbe4;
+      padding-top: .5em;
+      padding-bottom: .5em;
+  }
+}
+
+.form-loading {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

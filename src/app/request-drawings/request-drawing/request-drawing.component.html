@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>New Drawing Request</h1>
+<form [formGroup]="requestDrawingForm">
+  <mat-dialog-content>
+    <div class="new-drawing-request">
+      <mat-form-field class='new-drawing-request__form-control'>
+        <mat-label>Subject: </mat-label>
+        <input matInput formControlName='subject'/>
+      </mat-form-field>
+      <mat-form-field class='new-drawing-request__form-control'>
+        <mat-label>Target Date:</mat-label>
+        <input matInput [matDatepicker]="targetDate" formControlName='targetDate'>
+        <mat-datepicker-toggle matSuffix [for]="targetDate"></mat-datepicker-toggle>
+        <mat-datepicker #targetDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class='new-drawing-request__form-control'>
+        <mat-label>For Drawing No:</mat-label>
+        <app-drawing-select formControlName='drawing' [projectId]='data.projectId'></app-drawing-select>
+      </mat-form-field>
+      <mat-form-field class='form-control'>
+        <mat-label>Drawing Type:</mat-label>
+        <mat-select formControlName='typeId'>
+          <mat-option [value]='drawingType.id' *ngFor='let drawingType of drawingTypes'>{{ drawingType.type }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class='new-drawing-request__form-control' *ngIf='data.isDrafter'>
+        <mat-label>Assigned By:</mat-label>
+        <mat-select formControlName='employeeId'>
+          <mat-option *ngFor='let approver of approvers | async' [value]='approver.id'>{{ approver.first_name }} {{ approver.last_name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class='new-drawing-request__form-control'>
+        <mat-label>Original Drawing File:</mat-label>
+        <upload-input formControlName='drawingFile'></upload-input>
+      </mat-form-field>
+      <mat-form-field class='form-control'>
+        <mat-label>Comments:</mat-label>
+        <textarea matInput id="" cols="20" rows="5" formControlName='comments'></textarea>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color='warn' type='button' (click)='closeDialog()'>Close</button>
+    <button mat-raised-button color='primary' [disabled]='!requestDrawingForm.valid || isSubmitting' (click)='processForm(); $event.preventDefault()'>Save</button>
+  </mat-dialog-actions>
+</form>

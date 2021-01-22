@@ -1,0 +1,98 @@
+<div class="request-table">
+  <!-- <app-request-table-filters (onFilterChange)='filter($event)' defaultStatus='Assigned'></app-request-table-filters> -->
+  <div class="requests-table__actions">
+    <button mat-stroked-button (click)='openFilters()'>
+      <mat-icon>filter_list</mat-icon>
+      Filter Requests
+    </button>
+  </div>
+  <table mat-table [dataSource]='tableData.data' class='requests-table full-width'>
+    <ng-container matColumnDef='no'>
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef='let task; let i = index;'>{{ i + 1 }}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef='requestedBy'>
+      <th mat-header-cell *matHeaderCellDef>Requester</th>
+      <td mat-cell *matCellDef='let task;'>{{ task.requestedBy.getUserFullName() }}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef='subject'>
+      <th mat-header-cell *matHeaderCellDef>Subject</th>
+      <td mat-cell *matCellDef='let task;'>{{ task.subject }}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef='drawing_no'>
+      <th mat-header-cell *matHeaderCellDef>For Drawing No.</th>
+      <td mat-cell *matCellDef='let task; let i = index;'>{{ task.drawing.currentDrawingNo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef='drawingType'>
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef='let task; let i = index;'>{{ task.drawingType.type }} Drawing</td>
+    </ng-container>
+
+    <ng-container matColumnDef='category'>
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef='let task; let i = index;'>{{ task.drawing.category }}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef='requestDate'>
+      <th mat-header-cell *matHeaderCellDef>Request Date</th>
+      <td mat-cell *matCellDef='let task;'>{{ task.requestDate | date:'dd-MM-yyyy' }}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef='targetDate'>
+      <th mat-header-cell *matHeaderCellDef>Target Date</th>
+      <td mat-cell *matCellDef='let task;'>{{ task.targetDate | date:'dd-MM-yyyy' }}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef='status'>
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef='let task;'><span [class]='generateStatusClass(task.status)'>{{ task.status }}</span></td>
+    </ng-container>
+    
+    <ng-container matColumnDef='actions'>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef='let drawingRequest;'>
+        <button mat-button [matMenuTriggerFor]='buildDrawingMenu'>
+          <mat-icon aria-hidden="false" aria-label="See more icon">more_horiz</mat-icon>
+        </button>
+        <mat-menu #buildDrawingMenu xPosition='before'>
+          <button mat-menu-item (click)='viewDrawingRequest(drawingRequest)'>View</button>
+          <button mat-menu-item (click)='editDrawingRequest(drawingRequest)'>Edit</button>
+          <button mat-menu-item (click)='completeDrawingRequest(drawingRequest)' *ngIf='drawingRequest.isAssigned'>Complete</button>
+        </mat-menu>
+      </td>
+    </ng-container>
+    
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+  </table>
+  
+  <div 
+    fxLayout='row'
+    fxLayoutAlign='center'
+    class="drafter__tasks-no-data"
+    *ngIf='!isLoading && tableData.data.length === 0'
+  >
+    <p>No tasks found...</p>
+  </div>
+  
+  <content-loader [style]='{width: "100%"}' height="75" *ngIf='isLoading'>
+    <svg:rect x="0" y="5" width="100%" height="5" />
+    <svg:rect x="0" y="20" width="100%" height="5" />
+    <svg:rect x="0" y="35" width="100%" height="5" />
+    <svg:rect x="0" y="50" width="100%" height="5" />
+    <svg:rect x="0" y="65" width="100%" height="5" />
+  </content-loader>
+
+  
+  <mat-paginator 
+    [length]='tableData.total'
+    [pageSize]='tableData.data.length'
+    [pageSizeOptions]="pageSizes"
+    (page)='handlePaginatorChange($event)'
+  ></mat-paginator>
+</div>
+

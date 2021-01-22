@@ -1,0 +1,53 @@
+<table mat-table [dataSource]="projectCategories" class='drawing-categories-table full-width' #table>
+  <ng-container matColumnDef='name'>
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let category; let i = index;" >
+      <span *ngIf='!isBeingEdited(category)'>{{ category.categoryName }}</span>
+      <mat-form-field *ngIf='isBeingEdited(category)'>
+        <input matInput type="text" [(ngModel)]='editCategoryName'>
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef='actions'>
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let category; let i = index;" class='drawing-categories-table__actions'>
+      <div class="drawing-categories-table__actions--default" *ngIf='!selectedEditCategory || !isBeingEdited(category)'>
+        <button mat-icon-button color='accent' (click)='editCategory(category)'>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color='warn' (click)='confirmDelete(category)'>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <div class="drawing-categories-table__actions--actions" *ngIf='isBeingEdited(category)'>
+        <div class="drawing-categories-table__progress-container" *ngIf='isDataSubmitting'>
+          <mat-spinner diameter='20' class='drawing-categories-table__progress'></mat-spinner>
+        </div>
+        <button mat-icon-button color='accent' (click)='saveCategory()' [disabled]='isDataSubmitting' *ngIf='!isDataSubmitting'>
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button color='warn' (click)='resetEdit()' [disabled]='isDataSubmitting' *ngIf='!isDataSubmitting'>
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </td>
+  </ng-container>
+  
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let category; columns: columnsToDisplay;" [id]='"table-row-" + category.id'></tr>
+</table> 
+
+<div *ngIf='!projectCategories.length && !loading'>
+  <p class='text-center'>
+    <strong>No categories for this project.</strong>
+  </p>
+</div>
+
+<swal
+  #deleteConfirmation
+  icon='warning'
+  text="Are you sure you want to delete this category?"
+  showCancelButton='true'
+  (confirm)='deleteCategory()'
+></swal>

@@ -1,0 +1,19 @@
+<div class="tender-drawing-history-page">
+  <div class="tender-drawing-history">
+    <mat-card>
+      <h2 mat-card-title>History</h2>
+      <div mat-card-content>
+        <app-tender-drawing-history 
+          [tenderDrawing]='tenderDrawing'
+          [audits]='audits'
+          *ngIf='tenderDrawing'
+          class='history'
+          >
+        </app-tender-drawing-history>
+        <div class="tender-drawing-history__empty" *ngIf='!loading && !audits.length'>
+          <p class='text-center'>There are no history for this drawing yet...</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

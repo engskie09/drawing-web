@@ -1,0 +1,46 @@
+.shop-drawing-submit {
+    &__col {
+        p {
+            width: 100%;
+        }
+
+        &--as-built-drawing {
+           
+        }
+    }
+
+    &__form-group {
+        width: 100%;
+    }
+
+    &__shop-drawing {
+        width: 100%;
+    }
+
+    &__as-built {
+      width: 100%;
+    }
+
+    &__as-built-title{
+      width: 100%;
+      text-align: center;
+      background-color: #ffcc9f;
+      padding-top: .5em;
+      padding-bottom: .5em;
+  }
+}
+
+.drawing-file-row {
+  margin-bottom: 1em;
+
+  button {
+    margin-right: .5em;
+  }
+}
+
+.form-loading {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

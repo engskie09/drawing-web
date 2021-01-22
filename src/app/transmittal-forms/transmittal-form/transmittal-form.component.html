@@ -1,0 +1,185 @@
+<div class="transmittal-form" [formGroup]="transmittalForm">
+  <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
+    <div fxFlex="0 0 calc(25% - 16px)">
+      <mat-radio-group class="transmittal-form-type" formControlName="type">
+        <mat-radio-button
+          [value]="drawingType.id"
+          *ngFor="let drawingType of drawingTypes"
+          >{{ drawingType.type }}</mat-radio-button
+        >
+        <!-- <mat-radio-button value='shop'>Shop</mat-radio-button>
+        <mat-radio-button value='as-built'>As Built</mat-radio-button> -->
+      </mat-radio-group>
+    </div>
+    <div fxFlex="0 0 calc(25%)">
+      <mat-form-field class="form-control">
+        <mat-label>Reference No:</mat-label>
+        <input matInput type="text" formControlName="refNo" />
+      </mat-form-field>
+      <mat-form-field class="form-control">
+        <mat-label>Date:</mat-label>
+        <input matInput [matDatepicker]="formDate" formControlName="date" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="formDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #formDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="form-control">
+        <mat-label>Attn: </mat-label>
+        <input matInput type="text" formControlName="attn" />
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="16px">
+    <div fxFlex="0 0 calc(33% - 16px)">
+      <mat-form-field class="form-control">
+        <mat-label>Subject</mat-label>
+        <input matInput type="text" formControlName="subject" />
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="16px">
+    <div fxFlex="0 0 calc(50%)" formArrayName="for">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        class="checkboxes-row"
+      >
+        <div fxFlex="0 0 25%" class="checkbox-container">
+          <mat-checkbox [formControlName]="0" value="for information"
+            >for information</mat-checkbox
+          >
+        </div>
+        <div fxFlex="0 0 25%" class="checkbox-container">
+          <mat-checkbox [formControlName]="0">for endorsement</mat-checkbox>
+        </div>
+        <div fxFlex="0 0 25%" class="checkbox-container">
+          <mat-checkbox [formControlName]="0">for action</mat-checkbox>
+        </div>
+        <div fxFlex="0 0 25%" class="checkbox-container">
+          <mat-checkbox [formControlName]="0">for review</mat-checkbox>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="0 0 25%" class="checkbox-container">
+          <mat-checkbox [formControlName]="0">for record</mat-checkbox>
+        </div>
+        <div fxFlex="0 0 25%" class="checkbox-container">
+          <mat-checkbox [formControlName]="0">for approval</mat-checkbox>
+        </div>
+        <div fxFlex="0 0 25%" class="checkbox-container">
+          <mat-checkbox [formControlName]="0">for distrbution</mat-checkbox>
+        </div>
+        <div fxFlex="0 0 25%" class="checkbox-container">
+          <mat-checkbox [formControlName]="0">other</mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tranmsittal-form-items">
+    <table mat-table [dataSource]="dataSource" class="full-width" #itemsTable>
+      <ng-container matColumnDef="sn">
+        <th mat-header-cell *matHeaderCellDef>S/N</th>
+        <td mat-cell *matCellDef="let item; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let item">{{ item.drawing.no }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="referenceNo">
+        <th mat-header-cell *matHeaderCellDef>Reference No.</th>
+        <td mat-cell *matCellDef="let item">{{ item.referenceNo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="qty">
+        <th mat-header-cell *matHeaderCellDef>Qty.</th>
+        <td mat-cell *matCellDef="let item">{{ item.qty }}</td>
+      </ng-container>
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let item; let i = index">
+          <button mat-button color="accent" (click)="onRemove(i)">
+            Remove
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
+    </table>
+
+    <div
+      class="transmittal-form-items__no-items text-center"
+      *ngIf="dataSource.data.length === 0"
+    >
+      <h3>No items in this transmittal form</h3>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="showAddItem()"
+      >
+        Add One Now
+      </button>
+    </div>
+
+    <div
+      class="transmittal-form-items__actions"
+      *ngIf="dataSource.data.length >= 1"
+    >
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="showAddItem()"
+      >
+        Add Another Item
+      </button>
+    </div>
+  </div>
+  <div class="transmittal-form-remarks">
+    <div fxLayout="row">
+      <div fxFlex="0 0 500px">
+        <mat-form-field class="form-control">
+          <mat-label>Remarks</mat-label>
+          <input type="text" matInput formControlName="remarks" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="transmittal-form__signature">
+    <p>
+      <mat-checkbox
+        class="transmittal-form__use-saved"
+        [formControl]="useSavedSignature"
+        >Use saved signature</mat-checkbox
+      >
+    </p>
+    <ng-container *ngIf="!useSavedSignature.value">
+      <div class="transmittal-form__signature-pad">
+        <signature-pad
+          [options]="signaturePadOptions"
+          (onEndEvent)="drawComplete()"
+        >
+        </signature-pad>
+      </div>
+      <p class="text-center">
+        <strong>Signature</strong>
+      </p>
+      <p>
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="clearSignature()"
+        >
+          Clear
+        </button>
+      </p>
+    </ng-container>
+  </div>
+</div>

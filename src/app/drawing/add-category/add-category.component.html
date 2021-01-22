@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Categories</h2>
+<div mat-dialog-content class='add-category-form'>
+  <p><strong>Add New Category</strong></p>
+  <form [formGroup]="categoryForm" (submit)="onFormSubmit($event)">
+    <mat-grid-list rowHeight='80px' cols='2' gutterSize='16px'>
+      <mat-grid-tile class='add-category-form__col'>
+        <p>
+          <mat-form-field class='add-category-form__form-group'>
+            <mat-label>Category Name: </mat-label>
+            <input type="text" matInput formControlName="category_name">
+            <mat-error *ngIf='errors.category_name'>
+              {{errors.category_name}}
+            </mat-error>
+          </mat-form-field>
+          <small></small>
+        </p>
+      </mat-grid-tile>
+      <mat-grid-tile class='add-category-form__col'>
+        <p>
+          <button mat-raised-button color='primary' type='submit' [disabled]="isDataSubmitting">
+            Save
+          </button>
+        </p>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+  <p class='mb-0'><strong>Categories:</strong></p>
+  <app-drawing-categories-table 
+    (onDeleteSuccess)='handleOnDeleteSuccess()'
+    [projectId]='data.projectId'
+    (onEditSuccess)='handleOnEditSuccess()'>
+  </app-drawing-categories-table>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color='warn' (click)='closeDialog($event)'>
+    Close
+  </button>
+  &nbsp; &nbsp;
+</div>
+
+<swal 
+  #successConfirmation
+  title="Success"
+  icon='success'
+  text="Category successfully added!"
+  (close)='handleFormSubmit()'
+>
+</swal>

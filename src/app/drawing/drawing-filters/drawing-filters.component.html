@@ -1,0 +1,83 @@
+<div class="drawing-filters">
+  <form [formGroup]='filters' (submit)='handleFormSubmit()'>
+    <div mat-dialog-header>
+      <h1 mat-dialog-title>Filter Drawings</h1>
+    </div>
+    <div mat-dialog-content>
+      <div
+        fxLayout='row'
+        fxLayoutGap='16px'
+        fxLayoutAlign='space-between flex-start'
+      >
+        <mat-form-field class='form-control'>
+          <mat-label>Search Term</mat-label>
+          <input matInput formControlName='searchQuery' placeholder='Search for a drawing number or title'/>
+        </mat-form-field>
+      </div>
+      <div
+        fxLayout='row'
+        fxLayoutGap='16px'
+        fxLayoutAlign='space-between flex-start'
+      >
+        <div fxFlex='0 0 calc(50% - 16px)'>
+          <mat-form-field class='form-control'>
+            <mat-label>Category</mat-label>
+            <mat-select  formControlName='category'>
+              <mat-option value=''>
+                All
+              </mat-option>
+              <mat-option *ngFor='let category of data.categories' [value]='category.id'>
+                {{ category.categoryName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex='0 0 calc(50% - 16px)'>
+          <mat-form-field class='form-control'>
+            <mat-label>Uploaded By</mat-label>
+            <input matInput formControlName='uploadedBy'/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+        fxLayout='row wrap'
+        fxLayoutGap='16px'
+        fxLayoutAlign='space-between flex-start'
+      >
+        <div 
+          *ngFor='let filter of data.filters.typeDrawingStatus'
+          class='drawing-filters__type-drawing-filter'
+          fxFlex='0 0 calc(50% - 16px)'
+        >
+          <mat-form-field class='form-control'>
+            <mat-label>{{ capitalize(filter.label) }} Drawing Status</mat-label>
+            <mat-select [formControlName]='generateFormControlName(filter.type)'>
+              <mat-option value=''>All</mat-option>
+              <mat-option value='Submitted'>Submitted</mat-option>
+              <mat-option value='ReSubmitted'>ReSubmit</mat-option>
+              <mat-option value='Approved'>Approved</mat-option>
+              <mat-option value='Rejected'>Rejected</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- <div fxFlex='0 0 calc(50% - 16px)'>
+          <mat-form-field class='form-control'>
+            <mat-label>As Built Drawing Status</mat-label>
+            <mat-select formControlName='asBuiltDrawingStatus'>
+              <mat-option value=''>All</mat-option>
+              <mat-option value='Submitted'>Submitted</mat-option>
+              <mat-option value='ReSubmitted'>ReSubmit</mat-option>
+              <mat-option value='Approved'>Approved</mat-option>
+              <mat-option value='Rejected'>Rejected</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+      </div>
+    </div>
+    <div mat-dialog-actions class='drawing-filters__actions'>
+      <button mat-raised-button color='primary' type='submit'>Apply Filters</button>
+      <button mat-raised-button color='warn' type='button' (click)='resetFilters()'>Reset Filters</button>
+      <button mat-raised-button mat-dialog-close type='button'>Cancel</button>
+    </div>
+  </form>
+</div>

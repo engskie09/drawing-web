@@ -1,0 +1,69 @@
+<h1 mat-dialog-title>Filter Requests</h1>
+<form [formGroup]='filterForm' (ngSubmit)='onSubmit()'>
+  <div mat-dialog-content>
+    <div class="requests-table-filters">
+      <div class="requests-table-filters__section">
+        <mat-form-field class='request-table-filters__search-term form-control'>
+          <mat-label>Search Term</mat-label>
+          <input matInput formControlName='searchTerm' type='text' name='search_term'/>
+        </mat-form-field>
+      </div>
+      <div class="requests-table-filters__section">
+        <mat-form-field class='form-control' >
+          <mat-label>Status:</mat-label>
+          <mat-select formControlName='status'>
+            <mat-option value=''>All Status</mat-option>
+            <mat-option value='Assigned'>Assigned</mat-option>
+            <mat-option value='Completed'>Completed</mat-option>
+            <mat-option value='Approved'>Approved</mat-option>
+            <mat-option value='Rejected'>Rejected</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div 
+        class="requests-table-filters__section"
+        fxLayout='row'
+        fxLayoutAlign='space-between end'
+        fxLayoutGap='16px'
+      >
+        <div
+          fxFlex='0 0 calc(50% - 8px)'
+        >  
+          <mat-form-field class='form-control' >
+            <mat-label>Request Date From:</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName='fromDate'>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex='0 0 calc(50% - 8px)'
+        >  
+          <mat-form-field class='form-control'>
+            <mat-label>Request Date To:</mat-label>
+            <input matInput [matDatepicker]="endDatePicker" formControlName='endDate' [min]='minDate'>
+            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="requests-table-filters__section">
+        <mat-form-field class='form-control'>
+          <mat-label>Assigned By:</mat-label>
+          <mat-select formControlName='employeeId'>
+            <mat-option *ngFor='let approver of approvers | async' [value]='approver.id'>{{ approver.first_name }} {{ approver.last_name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <div 
+      class="request-table-filters__actions"
+    >
+      <button mat-raised-button mat-dialog-close cdkFocusInitial type='button'>Close</button>
+      <button mat-raised-button color='warn' (click)='resetForm()' cdkFocusInitial type='button'>Reset</button>
+      <button mat-raised-button color='primary' type='submit'>Search</button>
+    </div>
+  </div>
+</form>

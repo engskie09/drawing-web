@@ -1,0 +1,125 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+@import "~@ng-select/ng-select/themes/material.theme.css";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$drawing-orange: (
+  50 : #fff3e0,
+  100 : #ffe0b3,
+  200 : #ffcc80,
+  300 : #ffb84d,
+  400 : #ffa826,
+  500 : #ff9900,
+  600 : #ff9100,
+  700 : #ff8600,
+  800 : #ff7c00,
+  900 : #ff6b00,
+  A100 : #ffffff,
+  A200 : #fff7f2,
+  A400 : #ffd6bf,
+  A700 : #ffc6a6,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #fff,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$drawing-black: (
+  50 : #000000,
+  100 : #000000,
+  200 : #000000,
+  300 : #000000,
+  400 : #000000,
+  500 : #000000,
+  600 : #000000,
+  700 : #000000,
+  800 : #fff,
+  900 : #000000,
+  A100 : #000000,
+  A200 : #000000,
+  A400 : #000000,
+  A700 : #000000,
+  contrast: (
+    50 : #fff,
+    100 : #fff,
+    200 : #fff,
+    300 : #fff,
+    400 : #fff,
+    500 : #fff,
+    600 : #fff,
+    700 : #fff,
+    800 : #fff,
+    900 : #fff,
+    A100 : #fff,
+    A200 : #fff,
+    A400 : #fff,
+    A700 : #fff,
+  )
+);
+
+$drawing-web-primary: mat-palette($drawing-orange, 800);
+$drawing-web-accent: mat-palette($drawing-black, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$drawing-web-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$drawing-web-theme: mat-light-theme($drawing-web-primary, $drawing-web-accent, $drawing-web-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($drawing-web-theme);
+@import './styles/_login';
+@import './styles/icons/icons';
+@import './styles/forms/forms';
+@import './styles/forms/file-input';
+@import './styles/layout/row';
+@import './styles/helpers';
+@import './styles/typography/typography';
+@import './styles/history/versioned-field';
+@import './styles/header/header';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.text-center {
+  text-align: center;
+}
+
+// TODO: Remove this
+.main-actions {
+  text-align: right;
+
+  a,
+  button {
+    margin-bottom: .875em;
+  }
+}
+
+.swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after,
+.swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
+  font-size: 25px !important;
+}

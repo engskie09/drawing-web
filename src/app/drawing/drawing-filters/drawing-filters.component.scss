@@ -1,0 +1,11 @@
+.drawing-filters {
+  &__actions {
+    button {
+      margin-right: .25em;
+    }
+  }
+
+  &__type-drawing-filter:nth-child(even) {
+    margin-right: 0 !important;
+  }
+}

@@ -1,0 +1,35 @@
+.add-drawing-form {
+    &__col {
+        p {
+            width: 100%;
+        }
+
+        &--category {
+            // overflow: visible;
+
+            div.mat-form-field-underline {
+                height: 0;
+            }
+        }
+    }
+
+    &__form-group {
+        width: 100%;
+    }
+
+    &__shop-drawing {
+        width: 100%;
+    }
+
+    .shop-drawing {
+        width: 100%;
+
+        &__title {
+            width: 100%;
+            text-align: center;
+            background-color: #c1fbe4;
+            padding-top: .5em;
+            padding-bottom: .5em;
+        }
+    }
+}

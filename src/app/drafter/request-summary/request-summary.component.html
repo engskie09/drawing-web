@@ -1,0 +1,37 @@
+<div class="request-summary">
+  <p>
+    <span class='label'>Assigned:</span> 
+    <span *ngIf='!loading'>{{ summary ? summary.assigned : "-" }}</span>
+    <content-loader [style]='{width: "200px"}' height="10" *ngIf='loading'>
+      <svg:rect x="0" y="0" width="100%" height="10" />
+    </content-loader>
+  </p>
+  <p>
+    <span class='label'>Completed:</span> 
+    <span *ngIf='!loading'>{{ summary ? summary.completed : "-" }}</span>
+    <content-loader [style]='{width: "200px"}' height="10" *ngIf='loading'>
+      <svg:rect x="0" y="0" width="100%" height="10" />
+    </content-loader>
+  </p>
+  <p>
+    <span class='label'>Approved:</span> 
+    <span *ngIf='!loading'>{{ summary ? summary.approved : "-" }}</span>
+    <content-loader [style]='{width: "200px"}' height="10" *ngIf='loading'>
+      <svg:rect x="0" y="0" width="100%" height="10" />
+    </content-loader>
+  </p>
+  <p>
+    <span class='label'>Rejected:</span> 
+    <span *ngIf='!loading'>{{ summary ? summary.rejected : "-" }}</span>
+    <content-loader [style]='{width: "200px"}' height="10" *ngIf='loading'>
+      <svg:rect x="0" y="0" width="100%" height="10" />
+    </content-loader>
+  </p>
+  <p>
+    <span class='label'>TOTAL:</span> 
+    <span *ngIf='!loading'>{{ summary ? summary.total : "-" }}</span>
+    <content-loader [style]='{width: "200px"}' height="10" *ngIf='loading'>
+      <svg:rect x="0" y="0" width="100%" height="10" />
+    </content-loader>
+  </p>
+</div>

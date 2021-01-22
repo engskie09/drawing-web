@@ -1,0 +1,138 @@
+
+<!-- <app-breadcrumbs></app-breadcrumbs> -->
+<div class="summary-row" *ngIf='!isDataLoading && project && drawings'>
+  <div class="header">
+    <div 
+      fxLayout='row'
+      fxLayoutAlign='space-between center'
+    >
+      <h1>{{ project.title }}</h1>
+      <div class="actions">
+        <a [routerLink]="['requests']" mat-stroked-button color='primary' *ngIf='user && user.isDrafter'>My Drawing Requests</a>&nbsp;
+        <a [routerLink]="['/dashboard/projects']" mat-raised-button color='primary'>View All Projects</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div 
+  class="drawing-body"
+  fxLayout='row'
+  fxLayoutAlign='space-between start'
+  *ngIf='!isDataLoading && project && drawings'
+>
+  <div 
+    class="actions"
+    fxLayout='row'
+    fxLayoutGap='16px'
+  >
+    <div 
+      class="actions__buttons"
+      fxLayout='column'
+      fxLayoutGap='8px'
+      *ngIf='project'
+    >
+      <button 
+        mat-stroked-button 
+        class='actions__button' 
+        color='primary' 
+        (click)='openProjectSettings()'
+        *ngIf='user.isSuperadmin'
+      >
+          <mat-icon>settings</mat-icon>
+          Project Settings
+      </button>
+      <button mat-stroked-button class='actions__button' color='primary' (click)='goToClients()'><mat-icon>business</mat-icon>Manage Client</button>
+      <button mat-stroked-button class='actions__button' color='primary' (click)='showAddDrawing()' *ngIf='projectConfig.drawingTypes.length && projectCategories.length'><mat-icon>add</mat-icon>New Tender Drawing</button>
+      <button mat-stroked-button class='actions__button' color='primary' (click)='showAddCategory()' *ngIf='project'><mat-icon>category</mat-icon>Categories</button>
+      <button
+          [routerLink]='["/dashboard/projects", project.id, "transmittal-forms", "create"]' 
+          target="_blank" 
+          mat-stroked-button class='actions__button' color='primary' 
+          *ngIf='projectConfig.drawingTypes.length'
+          [disabled]='!client'>
+          <mat-icon>insert_drive_file</mat-icon>
+          New Transmittal File
+        </button>
+    </div>
+    <div class='actions__latest-transmittal-form'>
+      <app-latest-transmittal-form
+        *ngIf='project && projectConfig.drawingTypes.length'
+        [projectId]='project.id'
+        class='header-latest-transmittal-form'
+      ></app-latest-transmittal-form>
+    </div>
+  </div>
+  <div class="drawing__summary">
+    <app-drawing-summary-list
+      *ngIf='project && projectConfig.drawingTypes.length'
+      [projectId]='project.id'
+      #drawingSummary
+    ></app-drawing-summary-list>
+  </div>
+</div>
+
+<div class="drawing-table-card">  
+  <h4>Tender Drawings</h4>
+  <mat-card class='drawing-table'>
+    <div mat-card-content>
+      <div 
+        class="drawing-table__filters"
+        *ngIf='projectConfig && projectConfig.drawingTypes.length && projectCategories.length'
+      >
+        <button mat-stroked-button (click)='openFilters()'>
+          <mat-icon>filter_list</mat-icon>
+          Filter Drawings
+        </button>
+      </div>
+      <div class="drawing-main-table" *ngIf='project'>
+        <ng-container *ngIf='projectConfig && projectConfig.drawingTypes.length  && projectCategories.length'>
+          <app-drawing-drawing-table 
+            [loading]="isTableLoading" 
+            [drawings]="drawings.data" 
+            [projectId]='project.id' 
+            [drawingTypes]='projectConfig.drawingTypes'
+            (onFormsSubmit)='handleFormSubmit($event)'
+            class='drawing-table'
+            #appDrawingTable
+            >
+          </app-drawing-drawing-table>
+          <mat-paginator 
+            *ngIf='drawings'
+            [length]="drawings.total"
+            [pageSize]="drawingTableOptions.perPage"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)='pageEvent($event)'
+          >
+          </mat-paginator>
+        </ng-container>
+        <div 
+          class="drawing-main-table__no-settings"
+          *ngIf='!projectConfig || !projectConfig.drawingTypes.length || !projectCategories || !projectCategories.length && !isDataLoading'
+        >
+          <div class="text-center">
+            <img src="../../assets/configure.png" alt="Configure Icon" class='drawing-main-table__configure-icon'>
+            <p>The project is not properly configured. Below are the items need to be configured for the project: </p>
+          </div>
+          <div class='drawing-main-table__problems'>
+            <ul>
+              <li *ngIf='!projectConfig || !projectConfig.drawingTypes.length'><strong>Project Settings</strong>. Configure drawing types in the Project Settings by clicking the button the "Project Settings" button on the top left.</li>
+              <li *ngIf='!projectCategories || !projectCategories.length'><strong>Project Categories</strong>. Configure project categories in the Project Settings by clicking the button the "Categories" button on the top left.</li>
+            </ul>
+            <!-- Please configure drawing types in the Project Settings by clicking the button the "Project Settings" button on the top left. -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<swal
+  #success
+  text='Drawing request successfuly created'
+  icon='success'
+></swal>
+<swal
+  #requestDrawingSuccess
+  text='Drawing request successfuly created'
+  icon='success'
+></swal>

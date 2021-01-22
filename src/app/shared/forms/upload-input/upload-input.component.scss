@@ -1,0 +1,15 @@
+.upload-input {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+}

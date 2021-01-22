@@ -1,0 +1,128 @@
+<div
+  fxLayout='row'
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between flex-start'
+>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Drawing No: '
+      [current]='drawing.drawing_no'
+      [audits]='extractValues("drawing_no")'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Actual Submission Date: '
+      [current]='drawing.drawing_submission_date'
+      [audits]='extractValues("drawing_submission_date")'
+      [displayFn]='valueToDate'>
+    </app-versioned-field>
+  </div>
+</div>
+<div
+  fxLayout='row'
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between flex-start'
+>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Approved By: '
+      [current]='getApprovedBy()'
+      [audits]='extractValues("approved_by")'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Revision No: '
+      [current]='drawing.drawing_revision_no'
+      [audits]='extractValues("drawing_revision_no")'>
+    </app-versioned-field>
+  </div>
+</div>
+<div
+  fxLayout='row'
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between flex-start'
+>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='As Built Target Date: '
+      [current]='drawing.drawing_as_built_target_date'
+      [audits]='extractValues("drawing_as_built_target_date")'
+      [displayFn]='valueToDate'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Status: '
+      [current]='drawing.status'
+      [audits]='extractValues("status")'>
+    </app-versioned-field>
+  </div>
+</div>
+
+<div
+  fxLayout='row'
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between flex-start'
+>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Comments: '
+      [current]='drawing.drawing_submission_comment'
+      [audits]='extractValues("drawing_submission_comment")'
+      [textarea]='true'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Uploaded By: '
+      [current]='getUploadedBy()'
+      [audits]='extractValues("uploaded_by")'>
+    </app-versioned-field>
+  </div>
+</div>
+
+<div
+  fxLayout='row'
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between flex-start'
+>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='SBHE Transmittal No: '
+      [current]='drawing.transmittal_form ? drawing.transmittal_form.ref_no : ""'
+      [audits]='extractValues("transmittal_form")'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Client Transmittal No: '
+      [current]='drawing.drawing_client_transmittal_no'
+      [audits]='extractValues("drawing_client_transmittal_no")'>
+    </app-versioned-field>
+  </div>
+  <!-- <div fxFlex='0 0 calc(50% - 16px)'>
+    <mat-form-field 
+      appearance='fill' 
+      class='form-control' 
+    >
+      <mat-label>Uploaded By:</mat-label>
+      <input type="text" matInput readonly [value]='getUploadedBy()'>
+    </mat-form-field>
+    <div class='new-value bg-green' *ngIf='isUpdated("uploaded_by")'>
+      <div class='audit' *ngFor='let audit of extractValues("uploaded_by")'>
+        <strong>+ {{ audit.value }}</strong>
+        <div class="audit-bottom">
+          <div class="auditor">
+            {{ audit.auditedBy }}
+          </div>
+          &nbsp;-&nbsp;
+          <div class="updated-at">
+            <span>{{audit.time | date:"shortTime"}} - <strong>{{ audit.time | date:"dd-MM-yyyy"}}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>

@@ -1,0 +1,19 @@
+.audit-trail {
+  &__loader {
+    display: flex;
+    justify-content: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+
+  &__table {
+    width: 100%;
+    margin-bottom: 2em;
+  }
+
+  &__col {
+    p {
+      width: 100%;
+    }
+  }
+}

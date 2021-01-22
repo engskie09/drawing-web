@@ -1,0 +1,6 @@
+<div class="drawing-category-select">
+    <input type="text" [formControl]='myControl' matInput [matAutocomplete]="category" placeholder='Start typing to search for a category...'>
+    <mat-autocomplete #category="matAutocomplete">
+      <mat-option *ngFor='let category of filteredOptions | async' [value]='category.category_name'>{{ category.category_name }}</mat-option>
+    </mat-autocomplete>
+</div>

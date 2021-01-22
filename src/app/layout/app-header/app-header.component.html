@@ -1,0 +1,27 @@
+<mat-toolbar class='app-header' color='primary'>
+  <div class="app-header__left">
+    <button 
+      mat-icon-button class="example-icon" 
+      aria-label="Example icon-button with menu icon"
+      (click)='onMenuClick()'
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="app-header__logo-container">
+      <a href="#">
+        <img src="../../../assets/logo.png" alt="" class='app-header__logo'>
+      </a>
+    </div>
+  </div>
+  <div class="app-header__actions-container" *ngIf='user'>
+    <button mat-button [matMenuTriggerFor]='headerMenu'>
+      <img [src]="user.avatar" alt="" class='app-header__avatar'>
+    </button>
+    <mat-menu #headerMenu="matMenu" class='header-menu'>
+      <div class="user-details">
+        <span class='user'>{{ user.getUserFullName() }}</span>
+      </div>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

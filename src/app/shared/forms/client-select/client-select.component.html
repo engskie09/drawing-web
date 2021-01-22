@@ -1,0 +1,10 @@
+<div class="client-select">
+  <app-ajax-autocomplete
+    [options]='options'
+    [loading]='loading'
+    [displayFn]='displayFn'
+    [formControl]='autocomplete'
+    (onOptionSelected)='onOptionSelected($event)'>
+    <p empty-options>No clients found</p>
+  </app-ajax-autocomplete>
+</div>

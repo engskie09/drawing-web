@@ -1,0 +1,18 @@
+.header-menu {
+  .user-details {
+    font-weight: 700;
+    font-size: 0.875em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 0.25em;
+    padding-bottom: 0.25em;
+    
+    .user {
+      padding-top: 0.25em;
+      padding-bottom: 0.25em;
+      text-align: center;
+      display: block;
+    }
+  }
+}

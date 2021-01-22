@@ -1,0 +1,65 @@
+.request-drawings {
+  &__top-container {
+    margin-bottom: 16px;
+  }
+
+  &__table-container {
+    overflow: auto;
+    max-height: 310px;
+    margin-top: .5em !important;
+  }
+  
+  &__card {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+
+    mat-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  
+      mat-card-title {
+        margin-bottom: 0;
+      }
+    }
+
+    &--main {
+      padding-top: 2em;
+      
+      .mat-card-title {
+        font-size: 2em;
+      }
+
+      .mat-card-header-text {
+        display: none;
+      }
+    }
+  }
+
+  &__avatar {
+    max-width: 50px;
+    display: inline-block;
+    margin-right: 2em;
+    vertical-align: middle;
+  }
+
+  &__table-row {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  &__table {
+    width: 100%;
+
+    td {
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
+  }
+}
+
+.drafter-tasks {
+  &__action {
+    margin-left: 1em;
+  }
+}

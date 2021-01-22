@@ -1,0 +1,69 @@
+<div class="home">
+  <div
+    fxLayout='row'
+    fxLayoutAlign='space-between center'
+  >
+    <h1>Projects</h1>
+    <div class="actions">
+      <a 
+        [routerLink]="['/']"
+        mat-raised-button
+        color='primary'
+        *ngIf='!user.isDrafter'
+      >
+        View Request Drawing
+      </a>
+    </div>
+  </div>
+  <div class="projects" *ngIf='!loading'>
+    <mat-table 
+      [dataSource]="projectsSorted" 
+      class='projects__table' 
+      matSort 
+      #projectsTable
+      (matSortChange)='onTableSortChange($event)'
+    >
+      <ng-container matColumnDef="projectTitle">
+        <mat-header-cell *matHeaderCellDef class='projects__heading' mat-sort-header> Project Title </mat-header-cell>
+        <mat-cell *matCellDef="let project"> {{ project.title }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="startDate">
+        <mat-header-cell *matHeaderCellDef class='projects__heading' mat-sort-header> Start Date </mat-header-cell>
+        <mat-cell *matCellDef="let project"> {{ project.startDate | date:'dd-MM-yyyy' }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="endDate">
+        <mat-header-cell *matHeaderCellDef class='projects__heading' mat-sort-header> End Date </mat-header-cell>
+        <mat-cell *matCellDef="let project"> {{ project.endDate | date:'dd-MM-yyyy' }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef class='projects__heading' mat-sort-header> Status </mat-header-cell>
+        <mat-cell *matCellDef="let project">
+          <span [ngClass]='generateStatusClass(project.status)'>
+            {{ project.status }} 
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="progress">
+        <mat-header-cell *matHeaderCellDef class='projects__heading' mat-sort-header> Progress </mat-header-cell>
+        <mat-cell *matCellDef="let project"> {{ project.percentage }}% </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="columnsToDisplay" class='projects__header'></mat-header-row>
+      <mat-row *matRowDef="let project; columns: columnsToDisplay" class='projects__row' (click)='onProjectClick(project)'></mat-row>
+    </mat-table>
+  </div>
+  <div class="home__loader-container" *ngIf='loading'>
+    <mat-progress-spinner 
+      class='loader'
+      mode='indeterminate'
+      value='75'
+      diameter='60'
+    ></mat-progress-spinner>
+    <p>Please wait...</p>
+  </div>
+</div>

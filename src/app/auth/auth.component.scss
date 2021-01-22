@@ -1,0 +1,28 @@
+.login {
+  height: 100%;
+  width: 100%;
+  background-image: url('../../assets/bg.jpg');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form {
+  padding: 1em;
+  background-color: rgba(0, 0, 0, .5);
+  box-sizing: border-box;
+  width: 550px;
+
+  &__logo {
+    text-align: center;
+  }
+
+  &__form-control {
+    width: 100%;
+  }
+}
+
+.mat-form-field-label {
+  color: #fff !important;
+}

@@ -1,0 +1,16 @@
+.latest-transmittal-form {
+  max-width: 250px;
+  box-sizing: border-box;
+
+  p {
+    font-size: 0.875em;
+  }
+
+  &__number {
+    padding-bottom: 0;
+    font-size: 1.125rem !important;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-align: right;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="drawing-select" #drawingSelect>
+  <input matInput [formControl]='searchTermInput' autocomplete="off" [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='onOptionSelected($event)' #autoCompletePanel>
+    <mat-option *ngIf="loading" class="loading">
+      <div class="drawing-select__loader-container">
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+    </mat-option>
+    <ng-container *ngIf='searchTermInput.value && options.length === 0 && !loading'>
+      <mat-option>
+        No data...
+      </mat-option>
+    </ng-container>
+    <ng-container *ngIf='!loading && !searchTermInput.value'>
+      <mat-option>
+        Start typing to search for a drawing no..
+      </mat-option>
+    </ng-container>
+    <ng-container *ngIf='!loading'>
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{ option.currentDrawingNo }}
+      </mat-option>
+    </ng-container>
+  </mat-autocomplete>
+</div>

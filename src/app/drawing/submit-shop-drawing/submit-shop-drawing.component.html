@@ -1,0 +1,353 @@
+<form [formGroup]="drawingForm" (submit)="saveDrawing($event)">
+  <h1 mat-dialog-title *ngIf="data.action == 'view'">
+    {{ data.drawing_title | titlecase }}
+  </h1>
+  <h1 mat-dialog-title *ngIf="data.action == 'submit'">
+    {{ data.drawing_type && data.drawing_type.type | titlecase }} Submission
+  </h1>
+  <h1 mat-dialog-title *ngIf="data.action == 'resubmit'">Re-submit Drawing</h1>
+  <h1 mat-dialog-title *ngIf="data.action == 'approve'">Approve Drawing</h1>
+  <h1 mat-dialog-title *ngIf="data.action == 'reject'">Reject Drawing</h1>
+  <mat-dialog-content>
+    <div class="form-main" *ngIf="!loading">
+      <mat-grid-list cols="4" rowHeight="70px" gutterSize="16px">
+        <mat-grid-tile class="shop-drawing-submit__col">
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Drawing Title:</mat-label>
+              <input matInput [value]="data.drawing_title || ''" disabled />
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+        <mat-grid-tile class="shop-drawing-submit__col">
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Tender Drawing No:</mat-label>
+              <input matInput [value]="data.drawing_no || ''" disabled />
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+        <mat-grid-tile class="shop-drawing-submit__col">
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Target Date:</mat-label>
+              <input
+                matInput
+                [value]="data.drawing_target_date | date: 'yyyy-MM-dd'"
+                disabled
+              />
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+        <mat-grid-tile
+          class="shop-drawing-submit__col"
+          *ngIf="data.action === 'view' || data.action === 'edit'"
+        >
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Uploaded By:</mat-label>
+              <input
+                matInput
+                [value]="
+                  drawingRef.uploaded_by
+                    ? drawingRef.uploaded_by.first_name +
+                      ' ' +
+                      drawingRef.uploaded_by.last_name
+                    : ''
+                "
+                disabled
+              />
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list cols="4" rowHeight="70px" gutterSize="16px">
+        <mat-grid-tile class="shop-drawing-submit__col">
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Drawing Number:</mat-label>
+              <input matInput formControlName="drawing_no" />
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+        <mat-grid-tile class="shop-drawing-submit__col">
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Actual Submission Date:</mat-label>
+              <input
+                matInput
+                [matDatepicker]="actualSubmissionDate"
+                formControlName="drawing_submission_date"
+                [readonly]="data.action == 'view'"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="actualSubmissionDate"
+                [disabled]="data.action == 'view'"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #actualSubmissionDate></mat-datepicker>
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+        <mat-grid-tile class="shop-drawing-submit__col">
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Approved By:</mat-label>
+              <mat-select
+                formControlName="approver"
+                [disabled]="data.action == 'view'"
+              >
+                <mat-option
+                  *ngFor="let approver of approvers | async"
+                  [value]="approver.id"
+                  >{{ approver.first_name }}
+                  {{ approver.last_name }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+        <mat-grid-tile class="shop-drawing-submit__col">
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Revision No.:</mat-label>
+              <input
+                matInput
+                formControlName="drawing_revision_no"
+                [readonly]="data.action == 'view'"
+              />
+              <mat-hint
+                >Previous Revision No:
+                {{ drawingRef ? drawingRef.drawing_revision_no : "" }}</mat-hint
+              >
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <div fxLayout="row" fxLayoutGap="16px">
+        <div fxFlex="0 0 25%" *ngIf="data.nextDrawingType">
+          <mat-form-field class="shop-drawing-submit__form-group">
+            <mat-label>{{ data.nextDrawingType.type }} Target Date:</mat-label>
+            <input
+              matInput
+              [matDatepicker]="drawingAsBuiltTargetDate"
+              formControlName="drawing_next_type_target_date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="drawingAsBuiltTargetDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #drawingAsBuiltTargetDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div fxFlex="0 0 25%" *ngIf="previousStatus">
+          <mat-form-field class="shop-drawing-submit__form-group">
+            <mat-label>Status:</mat-label>
+            <input matInput disabled [value]="previousStatus" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="0 0 25%" *ngIf="previousStatus">
+          <mat-form-field class="shop-drawing-submit__form-group">
+            <mat-label>Returned Date:</mat-label>
+            <input
+              matInput
+              [matDatepicker]="returnedDate"
+              formControlName="drawing_returned_date"
+              [readonly]="data.action == 'view'"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="returnedDate"
+              [disabled]="data.action == 'view'"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #returnedDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-grid-list cols="1" rowHeight="140px" gutterSize="16px">
+        <mat-grid-tile class="shop-drawing-submit__col">
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Comments:</mat-label>
+              <textarea
+                matInput
+                rows="5"
+                formControlName="drawing_submission_comment"
+                [readonly]="data.action == 'view'"
+              ></textarea>
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <div *ngIf="data.action !== 'view' && data.action !== 'edit' && data.action !== 'resubmit'">
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="viewDrawingFile()"
+        >
+          View Drawing File
+        </button>
+        &nbsp;
+        <!-- <mat-grid-list cols='7' rowHeight='100px' gutterSize='16px' >
+              <mat-grid-tile class="shop-drawing-submit__col" colspan='3'>
+                  <p>
+                      <mat-form-field class='shop-drawing-submit__form-group file-input-field'>
+                          <mat-label>Drawing File:</mat-label>
+                          <upload-input formControlName='drawing_file'></upload-input>
+                      </mat-form-field>
+                  </p>
+              </mat-grid-tile>
+          </mat-grid-list> -->
+      </div>
+      <div *ngIf="data.action == 'edit' || data.action == 'resubmit'">
+        <mat-grid-list cols="7" rowHeight="100px" gutterSize="16px">
+          <mat-grid-tile class="shop-drawing-submit__col" colspan="3">
+            <p>
+              <mat-form-field
+                class="shop-drawing-submit__form-group file-input-field"
+              >
+                <mat-label>Drawing File:</mat-label>
+                <upload-input formControlName="drawing_file"></upload-input>
+              </mat-form-field>
+            </p>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+
+      <div *ngIf="data.action !== 'view'">
+        <mat-grid-list
+          cols="7"
+          rowHeight="100px"
+          gutterSize="16px"
+          *ngIf="shouldDisplaySBHETransmittalFile()"
+        >
+          <mat-grid-tile class="shop-drawing-submit__col" colspan="3">
+            <p>
+              <mat-form-field
+                class="shop-drawing-submit__form-group file-input-field"
+              >
+                <mat-label>SBHE Transmittal Form:</mat-label>
+                <upload-input
+                  formControlName="submitted_transmittal_form"
+                ></upload-input>
+              </mat-form-field>
+            </p>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <mat-grid-list
+        cols="7"
+        rowHeight="100px"
+        gutterSize="16px"
+        *ngIf="shouldDisplayClientTransmittalFile() && data.action !== 'view'"
+      >
+        <mat-grid-tile
+          class="shop-drawing-submit__col"
+          *ngIf="data.action !== 'view'"
+          colspan="3"
+        >
+          <p>
+            <mat-form-field
+              class="shop-drawing-submit__form-group file-input-field"
+            >
+              <mat-label>Client Transmittal Form:</mat-label>
+              <upload-input
+                formControlName="drawing_client_transmittal_file_upload"
+              ></upload-input>
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+
+        <mat-grid-tile
+          class="shop-drawing-submit__col"
+          *ngIf="data.action !== 'view' && shouldDisplayClientTransmittalFile()"
+          colspan="2"
+        >
+          <p>
+            <mat-form-field class="shop-drawing-submit__form-group">
+              <mat-label>Client Transmittal No:</mat-label>
+              <input matInput formControlName="drawing_client_transmittal_no" />
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <div *ngIf="data.action === 'view'" class="drawing-file-row">
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="viewDrawingFile()"
+        >
+          View Drawing File
+        </button>
+        &nbsp;
+      </div>
+      <div *ngIf="data.action === 'view'" class="drawing-file-row">
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="viewSBHETransmittal()"
+          *ngIf="drawingRef.transmittal_form"
+        >
+          View SBHE Transmittal File
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="viewSubmittedTransmittalForm()"
+          *ngIf="drawingRef.submitted_transmittal_form"
+        >
+          View Submitted SBHE Transmittal File
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="viewClientTransmittal()"
+          *ngIf="drawingRef.drawing_client_transmittal_file"
+        >
+          View Client Transmittal File
+        </button>
+      </div>
+    </div>
+    <div class="form-loading" *ngIf="loading">
+      <mat-progress-spinner
+        mode="indeterminate"
+        diameter="40"
+      ></mat-progress-spinner>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button
+      mat-raised-button
+      color="warn"
+      type="cancel"
+      (click)="handleCancelClicked($event)"
+    >
+      Cancel</button
+    >&nbsp;
+    <!-- TODO: Have a progress spinner here -->
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="isDataSubmitting || loading"
+      *ngIf="data.action !== 'view'"
+    >
+      <span>{{
+        (data.action !== "edit" ? data.action : "save") | titlecase
+      }}</span>
+    </button>
+  </mat-dialog-actions>
+</form>
+
+<swal
+  #successConfirmation
+  title="Success"
+  text="Drawing has been updated!"
+  icon="success"
+  (confirm)="handleFormSubmit()"
+></swal>

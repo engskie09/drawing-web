@@ -1,0 +1,45 @@
+.drawing-select {
+  position: relative;
+
+  &__options {
+    // position: absolute;  
+    width: 100%;
+    top: calc(100% + 7px);
+    padding: .5em;
+    border-radius: 3px;
+    background-color: #fff;
+    z-index: 10;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    max-height: 150px;
+    box-sizing: border-box;
+  }
+
+  &__placeholder {
+    text-align: center;
+  }
+
+  &__loader-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__option {
+    padding-top: .5em;
+    padding-bottom: .5em;
+    cursor: pointer;
+    transition: all .2s ease;
+    background-color: #fff;
+    margin-left: -.5em;
+    margin-right: -.5em;
+    padding-left: .5em;
+    padding-right: .5em;
+    display: block;
+    border: none;
+    width: 100%;
+    font-family: inherit;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<div class="home">
+  <ng-container *ngIf='!loading'>
+    <div *ngIf='user.isDrafter'>
+      <app-projects></app-projects>
+    </div>
+    <div *ngIf='user.isAdmin'>
+      <app-request-drawings></app-request-drawings>
+    </div>
+  </ng-container>
+  <div class="home__loader-container" *ngIf='loading'>
+    <mat-progress-spinner 
+      class='loader'
+      mode='indeterminate'
+      value='75'
+      diameter='60'
+    ></mat-progress-spinner>
+    <p>Please wait...</p>
+  </div>
+</div>

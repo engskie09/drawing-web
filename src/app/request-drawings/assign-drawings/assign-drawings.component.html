@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Assign Requests</h1>
+<div mat-dialog-content class='assign-drawings'>
+  <div 
+    class="assign-drawings__container"
+    fxLayout='row wrap'
+    fxLayoutAlign='center'
+    fxLayoutGap='16px'
+  >
+    <div class="assign-drawings__column" *ngFor='let drafter of drafters; let i = index' fxFlex='0 0 calc(33.333% - 16px)'>
+      <div class="assign-drawing-drafter">
+        <div class="assign-drawing-drafter__header">
+          <img 
+            [src]='drafter.avatarLink'
+            alt="Avatar"
+            class='assign-drawing-drafter__img'
+          >
+          <h4>{{ drafter.fullname }}</h4>
+        </div>
+        <div 
+          cdkDropList
+          [id]='"drafter-" + i'
+          class="assign-drawing-drafter__tasks"
+          [cdkDropListConnectedTo]="taskDragLists"
+          [cdkDropListData]="drafter.drawingRequests"
+          (cdkDropListDropped)="drop($event)"
+        >
+        <div *ngFor="let task of drafter.drawingRequests" class='assign-drawing-drafter__task' cdkDrag>{{ task.subject }}</div> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="closeDialog()" color='warn'>Close</button>
+  <button mat-raised-button (click)="saveDrawingAssignments()" color='primary' [disabled]='loading || isSaving'>Save</button>
+</div>

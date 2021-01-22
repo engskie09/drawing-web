@@ -1,0 +1,26 @@
+<div class="versioned-field">
+  <div class="versioned-field__current">
+    <mat-form-field
+      appearance='fill'
+      class='form-control'
+    >
+      <mat-label>{{ label }}</mat-label>
+      <input matInput [value]='current' *ngIf='!textarea'>
+      <textarea matInput rows=5 [value]='displayValue(current)' *ngIf='textarea'></textarea>
+    </mat-form-field>
+    <div class="versioned-field__changes">
+      <div class="versioned-field__audit" *ngFor='let audit of audits'>
+        <strong>+ {{ displayValue(audit.value) }}</strong>
+        <div class="audit-bottom">
+          <div class="auditor">
+            {{ audit.auditedBy }}
+          </div>
+          &nbsp;-&nbsp;
+          <div class="updated-at">
+            <span>{{ audit.time | date:"shortTime" }} - <strong>{{ audit.time | date:"dd-MM-yyyy"}}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

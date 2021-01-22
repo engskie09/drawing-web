@@ -1,0 +1,26 @@
+<div class="project-configuration-item">
+  <div class="project-configuration-item__value" *ngIf='!isEditing'>
+    {{ itemValue }}
+  </div>
+  <div class="project-configuration-item__input" *ngIf='isEditing'>
+    <mat-form-field>
+      <input type="text" matInput [formControl]='itemFormControl' #editInput>
+    </mat-form-field>
+  </div>
+  <div class="project-configuration-item__action" *ngIf='!isEditing'>
+    <button mat-icon-button color='primary' (click)='editValue()'>
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color='warn' (click)='delete()'>
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <div class="project-configuration-item__edit-action" *ngIf='isEditing'>
+    <button mat-icon-button color='primary' (click)='submit()'>
+      <mat-icon>done</mat-icon>
+    </button>
+    <button mat-icon-button color='warn' (click)='cancelEdit()'>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

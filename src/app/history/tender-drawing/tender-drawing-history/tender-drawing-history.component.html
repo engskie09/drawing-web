@@ -1,0 +1,97 @@
+<div 
+  fxLayout='row' 
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between flex-start'
+  >
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Drawing No: '
+      [current]='tenderDrawing.no'
+      [audits]='extractValues("drawing_no")'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Drawing Title: '
+      [current]='tenderDrawing.title'
+      [audits]='extractValues("drawing_title")'>
+    </app-versioned-field>
+  </div>
+</div>
+<div 
+  fxLayout='row' 
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between flex-start'
+  >
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Drawing Title Date: '
+      [current]='tenderDrawing.titleDate'
+      [audits]='extractValues("drawing_title_date")'
+      [displayFn]='valueToDate'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Category: '
+      [current]='tenderDrawing.category'
+      [audits]='extractValues("drawing_category")'>
+    </app-versioned-field>
+  </div>
+</div>
+<div 
+  fxLayout='row' 
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between flex-start'
+>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Project: '
+      [current]='tenderDrawing.projectName'
+      [audits]='extractValues("project")'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Uploaded By: '
+      [current]='tenderDrawing.employeeName'
+      [audits]='extractValues("employee")'>
+    </app-versioned-field>
+  </div>
+</div>
+<div 
+  fxLayout='row' 
+  fxLayoutGap='16px'
+  fxLayoutAlign='space-between'
+>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Shop Drawing Target Date: '
+      [current]='tenderDrawing.targetDate'
+      [audits]='extractValues("drawing_target_date")'
+      [displayFn]='valueToDate'>
+    </app-versioned-field>
+  </div>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Current Drawing No: '
+      [current]='tenderDrawing.currentDrawingNo'
+      [audits]='extractValues("current_drawing_no")'>
+    </app-versioned-field>
+  </div>
+</div>
+<div fxLayout='row'>
+  <div fxFlex='0 0 calc(50% - 16px)'>
+    <app-versioned-field
+      label='Drawing File: '
+      [current]='tenderDrawing.drawingFile'
+      [audits]='extractValues("drawing_file_upload")'
+      [displayFn]='generateDrawingFileUrl'>
+    </app-versioned-field>
+  </div>
+</div>
+
+<div class="details">
+  <p><strong>Events: </strong>{{ events | titlecase }}</p>
+  <p><strong>Done by: </strong>{{ doneBy | titlecase }}</p>
+</div>

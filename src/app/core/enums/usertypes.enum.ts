@@ -1,0 +1,16 @@
+export enum UserTypes {
+  Superadmin = 1,
+  Director = 2,
+  ProjectManager = 3,
+  AssistantProjectManager = 4,
+  Engineer = 5,
+  Supervisor = 6,
+  Worker = 7,
+  Safety = 8,
+  QuantitySurveyor =  9,
+  Coordinator = 10,
+  Logistic = 11,
+  Driver = 12,
+  Procurement = 13,
+  Drafter = 14,
+}

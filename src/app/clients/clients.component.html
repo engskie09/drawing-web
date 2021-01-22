@@ -1,0 +1,30 @@
+<div class="clients">
+  <h1 *ngIf='client'>{{ client.name }}</h1>
+  <div class="header-loader" *ngIf='!client'>
+    <content-loader [style]='{width: "300px"}' height="100">
+      <svg:rect x="0" y="10" width="100%" height="40px" />
+    </content-loader>
+  </div>
+  <mat-card>
+    <mat-card-content>
+      <form (submit)='handleFormSubmit()'>
+        <div class="clients__form">
+          <app-clients-form 
+            [formControl]='clientForm'
+            [client]='client'
+            [loading]='loading'
+          >
+          </app-clients-form>
+        </div>
+        <button mat-raised-button color='primary' [disabled]='clientForm.invalid || isSubmitting'>Submit</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<swal 
+  #successConfirmation
+  title="Success"
+  icon='success'
+>
+</swal>

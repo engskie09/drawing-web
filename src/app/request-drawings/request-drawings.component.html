@@ -1,0 +1,83 @@
+<div class="request-drawings">
+  <div 
+    fxLayout='row'
+    fxLayoutAlign='space-between center'
+  >
+    <h1>Request Drawing</h1>
+    <a [routerLink]="['/dashboard/projects']" mat-raised-button color='primary'>View All Projects</a>
+  </div>
+  <div 
+    fxLayout='row wrap'
+    fxLayoutGap='16px'
+  >
+    <div fxFlex='60 0 0'>
+      <mat-card class='request-drawings__card'>
+        <mat-card-header>
+          <mat-card-title>Requested Drawings</mat-card-title>
+          <button mat-stroked-button color='primary' (click)='openRequests()'>See All</button>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="request-drawings__table-container">
+            <featured-requests 
+              #featuredRequests>
+            </featured-requests>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex='40 0 0'>
+      <mat-card class='request-drawings__card requested-drawings'>
+        <mat-card-header>
+          <mat-card-title>Drafters</mat-card-title>
+          <div class="actions">
+            <button mat-stroked-button color='primary' (click)="openAssignDrawings()">Assigned Drawing</button>&nbsp;
+            <button mat-stroked-button color='primary' (click)="openDrafters()">See All</button>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="request-drawings__table-container">
+            <featured-drafters 
+              (drafterClicked)='handleDrafterClicked($event)' 
+              (onDraftersLoaded)='handleDraftersLoaded($event)' 
+              #featuredDrafters>
+            </featured-drafters>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="request-drawings-main-table">
+    <mat-card class='request-drawings__card request-drawings__card--main'>
+      <div 
+        fxLayout='row'
+        class="drafter-tasks__header"
+      >
+        <div class="drafter-tasks__title" fxLayout='row'>
+          <content-loader [style]='{width: "100%"}' height="20" *ngIf='isDrafterTasksLoading'>
+            <svg:rect x="10" y="0" width='320' height='20'/>
+          </content-loader>
+          <mat-card-title *ngIf='!isDrafterTasksLoading && selectedDrafter'>{{ selectedDrafter.fullname }}</mat-card-title>
+        </div>
+        <div class="drafter-tasks__action">
+          <button mat-raised-button color='primary' (click)='showNewRequestDrawing()'>Request Drawing</button>
+        </div>
+      </div>
+      <mat-card-content>
+        <drafter-tasks 
+          [loading]="isDrafterTasksLoading" 
+          [drafter]="selectedDrafter" 
+          (onEditFormSubmit)='handleEditRequestFormSubmit($event)' 
+          #drafterTasks>
+        </drafter-tasks>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<swal 
+  #successConfirmation
+  title="Success"
+  icon='success'
+>
+</swal>

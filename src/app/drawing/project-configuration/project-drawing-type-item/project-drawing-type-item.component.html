@@ -1,0 +1,61 @@
+<div 
+  cdkDrag
+  [cdkDragDisabled]='isEditing'
+  class="project-drawing-type-item"
+>
+  <div class="project-drawing-type-item__header">
+    <div class="project-drawing-type-item__value" *ngIf='drawingType.type'>
+      <span [style.color]='drawingType.color'><strong>{{ drawingType.type }}</strong></span>
+    </div>
+    <div class="project-drawing-type-item__value" *ngIf='edit'>
+      <strong>New Item</strong>
+    </div>
+    <div class="project-drawing-type-item__action" *ngIf='!isEditing'>
+      <button mat-icon-button color='primary' (click)='editValue()'>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color='warn' (click)='delete()'>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="project-drawing-type-item__body" *ngIf='isEditing'>
+    <div class="project-drawing-type-item__fields">
+      <div class="project-drawing-type-item__field">
+        <mat-form-field
+          class='form-control'
+        >
+          <mat-label>Label:</mat-label>
+          <input type="text" matInput [formControl]='itemFormControl'>
+        </mat-form-field>
+      </div>
+      <div class="project-drawing-type-item__field">
+        <div class="color-picker">
+          <p class=''>Color:</p>
+          <color-sketch 
+            [color]="drawingType.color"
+            [disableAlpha]='true'
+            (onChange)='handleColorChange($event)'
+          >
+          </color-sketch>
+        </div>
+      </div>
+    </div>
+    <div class="project-drawing-type-item__edit-action">
+      <button mat-raised-button color='warn' (click)='cancelEdit()'>
+        Cancel
+      </button>&nbsp;
+      <button mat-raised-button color='primary' (click)='submit()'>
+        Save
+      </button>
+    </div>
+  </div>
+  <!-- <div class="project-drawing-type-item__edit-action" *ngIf='isEditing'>
+    <button mat-icon-button color='primary' (click)='submit()'>
+      <mat-icon>done</mat-icon>
+    </button>
+    <button mat-icon-button color='warn' (click)='cancelEdit()'>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div> -->
+</div>

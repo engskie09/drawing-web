@@ -1,0 +1,16 @@
+<div class="drawing-request-action">
+  <form (submit)='handleFormSubmit()'>
+    <h1 mat-dialog-title>{{ data.action | titlecase }} Drawing Request</h1>
+    <div class="mat-dialog-content">
+      <p>Are you sure you want to {{ data.action }} this drawing request?</p>
+      <mat-form-field class='form-control'>
+        <mat-label>Comments</mat-label>
+        <textarea matInput rows="5" name='comments' [formControl]='comments'></textarea>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button (click)='closeDialog()' type='button' color='warn'>Cancel</button>
+      <button mat-raised-button type='submit' color='primary' [disabled]='loading'>{{ data.action | titlecase }}</button>
+    </div>
+  </form>
+</div>

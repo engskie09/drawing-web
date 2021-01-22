@@ -1,0 +1,235 @@
+<div class="drawing-table-container">
+  <table class='drawing-table' *ngIf='drawingTypes'>
+    <thead class='headings'>
+      <tr>
+        <th class='tender-drawing__heading tender-drawing__heading--tender' style='min-width: 450px;'>Tender Drawing</th>
+        <th class='tender-drawing__heading tender-drawing__heading--current' style='min-width: 170px'>Current</th>
+        <ng-container *ngFor='let drawingType of drawingTypes'>
+          <th style='min-width: 680px' [style.backgroundColor]='drawingType.color'>{{ generateDrawingTitle(drawingType.type) | titlecase }} Drawing</th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style='min-width: 550px;'>
+          <table class='tender-drawing-table'>
+            <thead>
+              <tr>
+                <th style='width: 10%'>No</th>
+                <th style='width: 30%'>Drawing Title</th>
+                <th style='width: 30%'>Drawing No</th>
+                <th style='width: 20%'>Tender <br/> Drawing Date</th>
+                <th style='width: 10%'></th>
+              </tr>
+            </thead>
+          </table>
+        </td>
+        <td style='min-width: 180px'>
+          <table class='tender-drawing-table'>
+            <thead>
+              <tr>
+                <th>Drawing No.</th>
+              </tr>
+            </thead>
+          </table>
+        </td>
+        <td *ngFor='let drawingType of drawingTypes'>
+          <table class='tender-drawing-table'>
+            <thead>
+              <tr>
+                <th style='width: 15%'>Target <br />Sub. Date</th>
+                <th style='width: 15%'>SBHE <br />Transmittal No.</th>
+                <th style='width: 15%'>Actual <br />Sub. Date</th>
+                <th style='width: 15%'>Returned <br />Date</th>
+                <th style='width: 15%'>Client <br /> Transmittal No.</th>
+                <th style='width: 15%'>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+          </table>
+        </td>
+      </tr>
+      <tr *ngIf='loading'>
+        <td [colSpan]='loadingColSpan'>
+          <mat-progress-spinner
+            class='drawing-table__loader'
+            mode='indeterminate'
+            diameter='40'
+          ></mat-progress-spinner>
+        </td>
+      </tr>
+      <tr *ngFor="let drawing of drawings; index as i;">
+        <td *ngIf='!loading' style='min-width: 450px;'>
+          <table class='tender-drawing-table'>
+            <tbody>
+              <tr>
+                <td class='cell-centered' style='width: 10%'>{{ i + 1 }}</td>
+                <td class='cell-centered' style='width: 30%'>{{ drawing.drawing_title }}</td>
+                <td class='cell-centered' style='width: 30%'>{{ drawing.drawing_no }}</td>
+                <td class='cell-centered' style='width: 20%'>{{ drawing.drawing_title_date | date:'dd-MM-yyyy' }}</td>
+                <td class='cell-centered see-more-cell' style='width: 10%'>
+                  <button mat-button [matMenuTriggerFor]='tenderDrawingMenu'>
+                    <mat-icon aria-hidden="false" aria-label="See more icon">more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #tenderDrawingMenu xPosition='before'>
+                    <button mat-menu-item (click)='viewTenderDrawing(drawing)'>View</button>
+                    <button mat-menu-item (click)='showEditDrawing(drawing)'>Edit</button>
+                    <button mat-menu-item (click)='goToTenderDrawingHistory(drawing)'>History</button>
+                  </mat-menu>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td *ngIf='!loading'>
+          <table class='current-drawing-table tender-drawing-table'>
+              <tbody>
+                <tr>
+                  <td>{{ drawing.current_drawing_no }}</td>
+                </tr>
+              </tbody>
+          </table>
+        </td>
+        <ng-container *ngIf='!loading'>
+          <ng-container *ngFor='let drawingType of drawingTypes; let i = index;'>
+            <td>
+              <table class='shop-drawing-table tender-drawing-table' *ngIf='drawing.type_drawings && extractTypeDrawing(drawing, drawingType.id)'>
+                <tbody>
+                  <tr *ngIf='extractTypeDrawing(drawing, drawingType.id)'>
+                    <td class='cell-centered' style="width: 15%">
+                      {{ extractTypeDrawingTargetDate(drawing, drawingType.id) | date:'dd-MM-yyyy'}}
+                    </td>
+                    <td class='cell-centered' style="width: 15%">{{ extractTypeDrawing(drawing, drawingType.id) && extractTypeDrawing(drawing, drawingType.id).transmittal_form ? extractTypeDrawing(drawing, drawingType.id).transmittal_form.ref_no : '' }}</td>
+                    <td class='cell-centered' style="width: 15%">{{ extractTypeDrawing(drawing, drawingType.id).drawing_submission_date | date:'dd-MM-yyyy' }}</td>
+                    <td class='cell-centered' style="width: 15%">{{ extractTypeDrawing(drawing, drawingType.id).drawing_returned_date | date:'dd-MM-yyyy' }}</td>
+                    <td class='cell-centered' style="width: 15%">{{ extractTypeDrawing(drawing, drawingType.id).drawing_client_transmittal_no }}</td>
+                    <td class='cell-centered' style="width: 15%">
+                      <span [class]='generateStatusClass(extractTypeDrawing(drawing, drawingType.id).status)'>{{ extractTypeDrawing(drawing, drawingType.id).status }}</span> 
+                    </td>
+                    <ng-container *ngIf='extractTypeDrawing(drawing, drawingType.id).status !== "To Submit"'>
+                      <td class='cell-centered see-more-cell'>
+                        <div class="tender-drawing-table__actions">
+                          <button mat-button [matMenuTriggerFor]='shopDrawingMenu'>
+                            <mat-icon aria-hidden="false" aria-label="See more icon">more_horiz</mat-icon>
+                          </button>
+                          <div 
+                            class="tender-drawing-table__info-container"
+                            *ngIf='drawingHasMissingFields(extractTypeDrawing(drawing, drawingType.id))'
+                          >
+                            <mat-icon matTooltip="Drawing not yet completely filled." [matTooltipPosition]="'below'" class='tender-drawing-table__info'>info</mat-icon>
+                            
+                          </div>
+                        </div>
+                        <mat-menu #shopDrawingMenu xPosition='before'>
+                          <button mat-menu-item (click)='showReSubmitDrawing(drawing, drawingType.id)'>Re Submit</button>
+                          <button mat-menu-item (click)='showApprovedDrawing(drawing, drawingType.id)'>Approved</button>
+                          <button mat-menu-item (click)='showRejectedDrawing(drawing, drawingType.id)'>Rejected</button>
+                          <button mat-menu-item (click)='showTypeDrawing(drawing, drawingType.id)'>View</button>
+                          <button mat-menu-item (click)='showEditTypeDrawing(drawing, drawingType.id)'>Edit</button>
+                          <button mat-menu-item (click)='showRequestDrawing(drawing, drawingType)'>Request Drawing</button>
+                          <button mat-menu-item (click)='goToHistory(extractTypeDrawing(drawing, drawingType.id))'>History</button>
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf='extractTypeDrawing(drawing, drawingType.id).status === "To Submit"'>
+                      <td class='cell-centered see-more-cell'>
+                        <div class="tender-drawing-table__actions">
+                          <button mat-button [matMenuTriggerFor]='shopDrawingMenu'>
+                            <mat-icon aria-hidden="false" aria-label="See more icon">more_horiz</mat-icon>
+                          </button>
+                          <div 
+                            class="tender-drawing-table__info-container"
+                            *ngIf='drawingHasMissingFields(extractTypeDrawing(drawing, drawingType.id))'
+                          >
+                            <mat-icon matTooltip="Drawing not yet completely filled." [matTooltipPosition]="'below'" class='tender-drawing-table__info'>info</mat-icon>
+                            
+                          </div>
+                        </div>
+                        <mat-menu #shopDrawingMenu xPosition='before'>
+                          <button mat-menu-item (click)='showSubmitDrawing(drawing, drawingType)'>Submit</button>
+                          <button mat-menu-item (click)='showRequestDrawing(drawing, drawingType)'>Request Drawing</button>
+                          <button mat-menu-item (click)='showTypeDrawing(drawing, drawingType.id)'>View</button>
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+              <table class='shop-drawing-table tender-drawing-table' *ngIf='drawing.type_drawings && !extractTypeDrawing(drawing, drawingType.id)'>
+                <tbody>
+                  <tr>
+                    <td class='cell-centered' style="width: 15%">
+                      {{ extractTypeDrawingTargetDate(drawing, drawingType.id) | date:'dd-MM-yyyy' }}
+                    </td>
+                    <td class='cell-centered' style="width: 15%"></td>
+                    <td class='cell-centered' style="width: 15%"></td>
+                    <td class='cell-centered' style="width: 15%"></td>
+                    <td class='cell-centered' style="width: 15%"></td>
+                    <td class='cell-centered' style="width: 15%">
+                      <span [class]='generateStatusClass(extractTypeStatus(drawing, drawingType.id))'>
+                        {{ extractTypeStatus(drawing, drawingType.id) }}
+                      </span>
+                    </td>
+                    <td class='cell-centered see-more-cell'>
+                      <button mat-button [matMenuTriggerFor]='shopDrawingMenu'>
+                        <mat-icon aria-hidden="false" aria-label="See more icon">more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #shopDrawingMenu xPosition='before'>
+                        <button mat-menu-item (click)='showRequestDrawing(drawing, drawingType)'>Request Drawing</button>
+                        <button mat-menu-item (click)='showSubmitDrawing(drawing, drawingType)'>Submit</button>
+                      </mat-menu>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+            <!-- <td *ngIf='drawingType !== "shop"'>
+              <table class='shop-drawing-table tender-drawing-table'>
+                <tbody>
+                  <tr *ngIf='extractTypeDrawing(drawing, drawingType)'>
+                    <td class='cell-centered' style="width: 22%">{{ drawing.drawing_target_date | date:'dd-MM-yyyy' }}</td>
+                    <td class='cell-centered' style="width: 22%">{{ extractTypeDrawing(drawing, drawingType).drawing_submission_date | date:'dd-MM-yyyy' }}</td>
+                    <td class='cell-centered' style="width: 22%">{{ getReturnedDate(extractTypeDrawing(drawing, drawingType)) | date:'dd-MM-yyyy' }}</td>
+                    <td class='cell-centered' style="width: 22%">{{ extractTypeDrawing(drawing, drawingType).status }}</td>
+                    <td class='cell-centered see-more-cell'>
+                      <button mat-button [matMenuTriggerFor]='buildDrawingMenu'>
+                        <mat-icon aria-hidden="false" aria-label="See more icon">more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #buildDrawingMenu xPosition='before'>
+                        <button mat-menu-item (click)='showReSubmitDrawing(drawing, drawingType)'>Re Submit</button>
+                        <button mat-menu-item (click)='showApprovedDrawing(drawing, drawingType)'>Approved</button>
+                        <button mat-menu-item (click)='showRejectedDrawing(drawing, drawingType)'>Rejected</button>
+                        <button mat-menu-item (click)='showTypeDrawing(drawing, drawingType)'>View</button>
+                        <button mat-menu-item (click)='showEditTypeDrawing(drawing, drawingType)'>Edit</button>
+                        <button mat-menu-item (click)='goToAsBuiltDrawingHistory(extractTypeDrawing(drawing, drawingType))'>History</button>
+                      </mat-menu>
+                    </td>
+                  </tr>
+                  <tr *ngIf='!extractTypeDrawing(drawing, drawingType)'>
+                    <td class='cell-centered' style="width: 22%">{{ drawing.shop_drawing && drawing.shop_drawing.drawing_as_built_target_date | date:'dd-MM-yyyy' }}</td>
+                    <td class='cell-centered' style="width: 22%"></td>
+                    <td class='cell-centered' style="width: 22%"></td>
+                    <td class='cell-centered' style="width: 22%"></td>
+                    <td class='cell-centered see-more-cell'>
+                      <button mat-button [matMenuTriggerFor]='shopDrawingMenu'>
+                        <mat-icon aria-hidden="false" aria-label="See more icon">more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #shopDrawingMenu xPosition='before'>
+                        <button mat-menu-item (click)='showSubmitTypeDrawing(drawing, drawingType)'>Submit</button>
+                      </mat-menu>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td> -->
+          </ng-container>
+        </ng-container>
+      </tr>
+      <tr *ngIf='drawings.length === 0 && !loading'>
+        <td colspan=4>
+          <p class='text-center'><strong>No drawings found...</strong></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

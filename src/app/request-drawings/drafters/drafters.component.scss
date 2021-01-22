@@ -1,0 +1,31 @@
+.drafters {
+  &__table {
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  &__no-data {
+    p {
+      text-align: center;
+    }
+  }
+
+  &__avatar {
+    max-width: 50px;
+    display: inline-block;
+    margin-right: 2em;
+    vertical-align: middle;
+  }
+
+  &__table-row {
+    cursor: pointer;
+    td {
+      padding-top: .5em;
+      padding-bottom: .5em;
+    }
+  }
+}
+
+.progress-bar {
+  height: 10px;
+}

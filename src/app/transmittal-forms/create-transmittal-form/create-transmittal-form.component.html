@@ -1,0 +1,48 @@
+<div class="d-flex">
+  <div>
+    <button mat-icon-button (click)="handleBack()" color="primary">
+      <mat-icon>arrow_back</mat-icon>&nbsp;Back
+    </button>
+  </div>
+  <div>
+    <h2>New Transmittal Form</h2>
+  </div>
+</div>
+<div class="create-tranmittal-form">
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <form (submit)="handleFormSubmit()">
+          <app-transmittal-form
+            [formControl]="transmittalForm"
+            [client]="client"
+            [drawingTypes]="drawingTypes"
+            [user]="user"
+          >
+          </app-transmittal-form>
+          <div fxLayoutAlign="space-between">
+            <button mat-raised-button color="accent" (click)="handleBack()">Cancel</button>
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="transmittalForm.invalid || submitting"
+            >
+              Save Transmittal Form
+            </button>
+          </div>
+
+          &nbsp;
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<swal
+  #successConfirmation
+  title="Success"
+  icon="success"
+  (confirm)="openFile()"
+>
+</swal>

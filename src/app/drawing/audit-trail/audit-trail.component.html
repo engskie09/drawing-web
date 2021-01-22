@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>History</h2>
+<div class='audit-trail' mat-dialog-content>
+  <div class="audit-trail__loader" *ngIf='isDataLoading'>
+    <mat-progress-spinner
+      mode='indeterminate'
+      diameter='40'
+    ></mat-progress-spinner>
+  </div>
+  <div class="audit-trail__content" *ngIf='!isDataLoading'>
+    <div class="audit-trail__header">
+      <mat-grid-list cols='4' rowHeight='70px' gutterSize='16px'>
+        <mat-grid-tile class='audit-trail__col'>
+          <p>
+            <mat-form-field>
+              <mat-label>Drawing Title: </mat-label>
+              <input type="text" disabled matInput readonly [value]='drawing.drawing_title'>
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+        <mat-grid-tile class='audit-trail__col'>
+          <p>
+            <mat-form-field>
+              <mat-label>Drawing No: </mat-label>
+              <input type="text" disabled matInput readonly [value]='drawing.drawing_no'>
+            </mat-form-field>
+          </p>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <table mat-table [dataSource]="history" class='audit-trail__table'>
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let data; let i = index">{{i + 1}} </td>
+      </ng-container>
+      <ng-container matColumnDef="event">
+        <th mat-header-cell *matHeaderCellDef>Action </th>
+        <td mat-cell *matCellDef="let data">{{data.event | titlecase}}</td>
+      </ng-container>
+      <ng-container matColumnDef="keysUpdated">
+        <th mat-header-cell *matHeaderCellDef>Updated Values </th>
+        <td mat-cell *matCellDef="let data">{{ data.displayChangedKeys().length ? data.displayChangedKeys() : '-' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let data">{{data.date | date:'dd-MM-yyyy'}}</td>
+      </ng-container>
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef>Time</th>
+        <td mat-cell *matCellDef="let data">{{data.date | date:'shortTime'}}</td>
+      </ng-container>
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>Done By</th>
+        <td mat-cell *matCellDef="let data">{{ data.doneBy.getUserFullName() }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"></tr>
+    </table>
+    <button mat-raised-button color='warn' (click)='closeDialog()'>Close</button>
+  </div>
+</div>

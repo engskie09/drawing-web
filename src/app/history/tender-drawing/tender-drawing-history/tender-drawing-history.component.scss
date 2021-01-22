@@ -1,0 +1,30 @@
+.new-value {
+  background-color: #ddffdd;
+  margin-top: -1.34375em;
+  margin-bottom: 1.5em;
+
+  .audit {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    border-bottom: 1px solid #333;
+
+    .audit-bottom {
+      margin-top: 0.25em;
+      font-size: 97%;
+      display: flex;
+      align-items: center;
+    }
+
+    .updated-at {
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin-right: .25em;
+      }
+    }
+  }
+}

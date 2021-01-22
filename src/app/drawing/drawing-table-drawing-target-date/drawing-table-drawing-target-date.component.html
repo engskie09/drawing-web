@@ -1,0 +1,14 @@
+<div class="target-date">
+  <div class="target-date__content" *ngIf='!loading'>
+    <ng-container>
+      <p *ngIf='targetDate'>{{ targetDate | date:'dd-MM-yyyy' }}</p>
+      <p *ngIf='!targetDate && drawing.drawing_target_date'>{{ drawing.drawing_target_date | date:'dd-MM-yyyy' }}</p>
+      <p *ngIf='!targetDate && !drawing.drawing_target_date'>-</p>
+    </ng-container>
+  </div>
+  <div class="target-date__loader" *ngIf='loading'>
+    <content-loader [style]='{width: "100%"}' height="50" *ngIf='loading'>
+      <svg:rect x="0" y="10" width="100%" height="15" />
+    </content-loader>
+  </div>
+</div>

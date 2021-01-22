@@ -1,0 +1,139 @@
+<form [formGroup]='drawingRequestForm'>
+  <h1 mat-dialog-title>Drawing Request</h1>
+  <div mat-dialog-content cdkFocusRegionstart>
+    <div
+      fxLayout='row'
+      fxLayoutGap='16px'
+      class='row`'
+      *ngIf='drawingRequest.drawing && data.isDrafter'
+    >
+      <div fxFlex='0 0 calc(50% - 16px)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Project</mat-label>
+          <input matInput disabled [value]='drawingRequest.drawing.projectName'>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxLayout='row'
+      fxLayoutGap='16px'
+      class='row'
+    >
+      <div fxFlex='0 0 calc(50% - 16px)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Subject</mat-label>
+          <input matInput formControlName='subject'>
+        </mat-form-field>
+      </div>
+      <div fxFlex='0 0 calc(50%)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Status</mat-label>
+          <mat-select formControlName='status'>
+            <mat-option value='Assigned'>Assigned</mat-option>
+            <mat-option value='Completed'>Completed</mat-option>
+            <mat-option value='Approved'>Approved</mat-option>
+            <mat-option value='Rejected'>Rejected</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxLayout='row'
+      fxLayoutGap='16px'
+      class='row'
+    >
+      <div fxFlex='0 0 calc(50% - 16px)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Request Date:</mat-label>
+          <input matInput [matDatepicker]="requestDate" formControlName='request_date'>
+          <mat-datepicker-toggle matSuffix [for]="requestDate"></mat-datepicker-toggle>
+          <mat-datepicker #requestDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div fxFlex='0 0 calc(50%)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Target Date:</mat-label>
+          <input matInput [matDatepicker]="targetDate" formControlName='target_date'>
+          <mat-datepicker-toggle matSuffix [for]="targetDate"></mat-datepicker-toggle>
+          <mat-datepicker #targetDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxLayout='row'
+      fxLayoutGap='16px'
+      class='row'
+    >
+      <div fxFlex='0 0 calc(50% - 16px)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Requested By</mat-label>
+          <input matInput [value]='drawingRequest.requestedBy.getUserFullName()' disabled>
+        </mat-form-field>
+      </div>
+      <div fxFlex='0 0 calc(50%)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Assigned To</mat-label>
+          <input matInput [value]='drawingRequest.assignedTo.fullname' disabled>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxLayout='row'
+      fxLayoutGap='16px'
+      class='row'
+    >
+      <div fxFlex='0 0 calc(50% - 16px)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Drawing:</mat-label>
+          <app-drawing-select formControlName='drawing' [projectId]='data.projectId'></app-drawing-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex='0 0 calc(50%)'></div>
+    </div>
+    <div
+      fxLayout='row'
+      fxLayoutGap='16px'
+      class='row'
+      *ngIf='!isView'
+    >
+      <div fxFlex='0 0 calc(50% - 16px)'>
+        <mat-form-field class='form-control'>
+          <mat-label>Drawing File:</mat-label>
+          <upload-input formControlName='drawing_file'></upload-input>
+        </mat-form-field>
+      </div>
+      <div fxFlex='0 0 calc(50%)'></div>
+    </div>
+
+    <div fxLayout='row'>
+      <mat-form-field class='form-control'>
+        <mat-label>Comments:</mat-label>
+        <textarea matInput cols="30" rows="5" formControlName='comments'></textarea>
+      </mat-form-field>
+    </div>
+    
+    <div
+      class='files'
+    >
+      <button *ngIf='drawingRequest.drawingFile' mat-raised-button color='primary' type='button' (click)='drawingRequest.openDrawing()'>
+        View Original Drawing
+      </button> <br />
+      <button *ngIf='drawingRequest.completedDrawingFile !== "Assigned" && drawingRequest.completedDrawingFile' mat-raised-button color='primary' type='button' (click)='drawingRequest.openCompletedDrawingFile()'>
+        View Completed Drawing
+      </button>
+    </div>
+  </div>
+  
+  <div mat-dialog-actions>
+    <div
+      fxLayout='row'
+      fxLayoutAlign='space-between flex-start'
+      class='full-width'
+    >
+      <div class="actions-left">
+        <button mat-raised-button color='primary' (click)='saveDrawingRequest(); $event.preventDefault()' *ngIf='data.type !== "view"'>Save</button>
+      </div>
+      <button mat-raised-button  (click)='closeDialog()' [disabled]='' type='button'>Close</button>
+    </div>
+  </div>
+</form>

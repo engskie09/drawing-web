@@ -1,0 +1,81 @@
+<div class='client-form' [formGroup]='clientForm'>
+  <div
+    fxLayout='row'
+    fxLayoutGap='16px'
+    fxLayoutAlign='space-between flex-start'
+  >
+    <div
+      fxFlex='0 0 calc(50% - 8px)'
+    >
+      <mat-form-field class='form-control' *ngIf='!loading'>
+        <mat-label>Street Address: </mat-label>
+        <input matInput formControlName='address'>
+      </mat-form-field>
+      <content-loader [style]='{width: "100%"}' height="40" *ngIf='loading'>
+        <svg:rect x="0" y="10" width="100%" height="15" />
+      </content-loader>
+    </div>
+    <div
+      fxFlex='0 0 calc(50% - 8px)'
+    >
+      <mat-form-field class='form-control' *ngIf='!loading'>
+        <mat-label>City: </mat-label>
+        <input matInput formControlName='city'>
+      </mat-form-field>
+      <content-loader [style]='{width: "100%"}' height="40" *ngIf='loading'>
+        <svg:rect x="0" y="10" width="100%" height="15" />
+      </content-loader>
+    </div>
+  </div>
+  <div
+    fxLayout='row'
+    fxLayoutGap='16px'
+    fxLayoutAlign='space-between flex-start'
+  >
+    <div
+      fxFlex='0 0 calc(50% - 8px)'
+    >
+      <mat-form-field class='form-control' *ngIf='!loading'>
+        <mat-label>Country: </mat-label>
+        <input matInput formControlName='country'>
+      </mat-form-field>
+      <content-loader [style]='{width: "100%"}' height="40" *ngIf='loading'>
+        <svg:rect x="0" y="10" width="100%" height="15" />
+      </content-loader>
+    </div>
+    <div
+      fxFlex='0 0 calc(50% - 8px)'
+    >
+      <mat-form-field class='form-control' *ngIf='!loading'>
+        <mat-label>Zip Code: </mat-label>
+        <input matInput formControlName='zipCode'>
+      </mat-form-field>
+      <content-loader [style]='{width: "100%"}' height="40" *ngIf='loading'>
+        <svg:rect x="0" y="10" width="100%" height="15" />
+      </content-loader>
+    </div>
+  </div>
+  <div
+    fxLayout='row'
+    fxLayoutGap='16px'
+    fxLayoutAlign='space-between flex-start'
+  >
+  </div>
+  <div
+    fxLayout='row'
+    fxLayoutGap='16px'
+  >
+    <div
+      fxFlex='0 0 calc(50%)'
+    >
+      <mat-form-field class='form-control' *ngIf='!loading'>
+        <mat-label>Reference No. Format: </mat-label>
+        <input matInput formControlName='refFormat'>
+        <mat-hint>Sample Reference No: {{ refFormat ? refFormat + '01' : '-' }}</mat-hint>
+      </mat-form-field>
+      <content-loader [style]='{width: "100%"}' height="40" *ngIf='loading'>
+        <svg:rect x="0" y="10" width="100%" height="15" />
+      </content-loader>
+    </div>
+  </div>
+</div>

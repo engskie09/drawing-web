@@ -1,0 +1,10 @@
+<form [formGroup]='editClientForm' (submit)='onEditClientSubmit()'>
+  <h1 mat-dialog-title>Edit New Client</h1>
+  <div mat-dialog-content cdkFocusInitial>
+    <app-clients-form formControlName='clientDetails'></app-clients-form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Close</button> &nbsp;
+    <button mat-raised-button type='submit' color='primary' [disabled]='!editClientForm.valid || isLoading'>Save</button>
+  </div>
+</form>

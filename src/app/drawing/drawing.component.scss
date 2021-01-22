@@ -1,0 +1,144 @@
+.drawing-summary {
+  display: flex;
+  margin-left: -1em;
+  margin-right: -1em;
+
+  &__details {
+    display: flex;
+    margin-left: -1em;
+    margin-right: -1em;
+  }
+
+  &__actions {
+    width: 100%;
+    .mat-raised-button {
+      margin-right: 1em;
+    }
+  }
+
+  &__filters {
+    margin-top: auto;
+  }
+
+  &__filter {
+    margin-right: 1em;
+  }
+
+  &__category-filter {
+    width: 300px;
+  }
+  
+  &__col {
+    width: 50%;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    &--actions-filters {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    // &--shop {
+    //   p {
+    //     color: #c1e2ff !important;
+    //   }
+    // }
+
+    // &--as-built {
+    //   p {
+    //     color: #ffcc9f !important;
+    //   }
+    // }
+
+    p {
+      span {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.drawing {
+  &__loader {
+    display: flex;
+    justify-content: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+}
+
+.drawing-header {
+  margin-bottom: 1em;
+}
+
+.drawing-table {
+  &__filters {
+    text-align: right;
+  }
+}
+
+// .summary-row {
+//   display: flex;
+//   justify-content: space-between;
+
+//   .summary-col {
+//     width: 20%;
+//     margin-right: 2em;
+//     box-sizing: border-box;
+//   }
+
+//   .summary-title {
+//     display: flex;
+//     align-items: center;
+
+//     .mat-icon {
+//       margin-right: .25em;
+//     }
+//   }
+// }
+
+
+.actions {
+  margin-bottom: 1em;
+  margin-top: 1em;
+
+  &__button {
+    text-align: left;
+
+    .mat-icon {
+      margin-right: .25em;
+    }
+  }
+}
+
+.drawing__summary {
+  width: 50%;
+}
+
+.drawing-main-table {
+  &__configure-icon {
+    max-width: 80px;
+  }
+
+  &__problems {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.header-actions {
+  padding-top: .5em;
+  display: flex;
+  margin-left: -.25em;
+  margin-right: -.25em;
+
+  .button-container {
+    padding-left: .25em;
+    padding-right: .25em;
+
+    .header-latest-transmittal-form {
+      margin-top: .5em;
+    }
+  }
+}

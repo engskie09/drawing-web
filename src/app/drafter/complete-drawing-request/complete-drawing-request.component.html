@@ -1,0 +1,20 @@
+<div class="complete-drawing-request">
+  <form [formGroup]="completeDrawingForm" (submit)='onFormSubmit(); $event.preventDefault()'>
+    <h1 mat-dialog-title>Complete Drawing Request</h1>
+    <div mat-dialog-content>
+      <p>Add a comment and upload a drawing file to complete the drawing file.</p>
+      <mat-form-field class='form-control'>
+        <mat-label>Comments:</mat-label>
+        <textarea matInput cols="30" rows="5" formControlName='comments'></textarea>
+      </mat-form-field>
+      <mat-form-field class='form-control'>
+        <mat-label>Upload Drawing File:</mat-label>
+        <upload-input formControlName='completed_drawing_file'></upload-input>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button (click)='closeDialog()' type='button' color='warn'>Cancel</button>
+      <button mat-raised-button type='submit' color='primary' [disabled]='completeDrawingForm.invalid || loading'>Submit</button>
+    </div>
+  </form>
+</div>

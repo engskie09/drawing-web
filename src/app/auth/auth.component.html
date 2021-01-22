@@ -1,0 +1,24 @@
+<div class="login">
+  <div class="login-form">
+    <div class="login-form__logo">
+      <img src="../../assets/logo.png" alt="SBHE">
+    </div>
+    <div class="login-form__form">
+      <form [formGroup]='loginForm' (ngSubmit)='onFormSubmit($event, loginForm.value)'>
+        <mat-form-field class='login-form__form-control'>
+          <mat-label>Username</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput type="text" formControlName='username'>
+        </mat-form-field>
+        <mat-form-field class='login-form__form-control'>
+          <mat-label>Password</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input matInput type="password" formControlName='password'>
+        </mat-form-field>
+        <button mat-raised-button color='primary' [disabled]='loading'>
+          Login
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,167 @@
+<h2 mat-dialog-title>{{ view ? drawing.drawing_title : "Edit Drawing Title" }}</h2>
+<form [formGroup]='drawingForm' enctype="multipart/form-data" (submit)='onFormSubmit($event)'>
+  <mat-dialog-content>
+    <div class="form-main" *ngIf='!loading'>
+      <div class="add-drawing-form">
+        <div
+          fxLayout='row'
+          fxLayoutGap='16px'
+        >
+          <div fxFlex='1 0 0'>
+            <mat-form-field class='add-drawing-form__form-group'>
+              <mat-label>Date:</mat-label>
+              <input matInput [matDatepicker]="drawingDate" [value]='drawing.drawing_title_date' formControlName='drawing_title_date'>
+              <mat-datepicker-toggle matSuffix [for]="drawingDate"></mat-datepicker-toggle>
+              <mat-datepicker #drawingDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxFlex='1 0 0'>
+            <mat-form-field class='add-drawing-form__form-group'>
+              <mat-label>Uploaded By:</mat-label>
+              <input matInput disabled [value]='drawing.employee.first_name + " " + drawing.employee.last_name'>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-grid-list cols='2' rowHeight='70px' gutterSize='16px' *ngIf='view'>
+          <mat-grid-tile class="add-drawing-form__col">
+            <p>
+              <mat-form-field class='add-drawing-form__form-group'>
+                <mat-label>Category:</mat-label>
+                <input matInput [value]='drawing.category ? drawing.category.category_name : ""' [disabled]='view'>
+              </mat-form-field>
+            </p>
+          </mat-grid-tile>
+          <mat-grid-tile class="add-drawing-form__col">
+            <p>
+              <mat-form-field class='add-drawing-form__form-group'>
+                <mat-label>Drawing Title:</mat-label>
+                <input matInput [value]='drawing.drawing_title' formControlName='drawing_title'>
+              </mat-form-field>
+            </p>   
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols='2' rowHeight='70px' gutterSize='16px' *ngIf='!view'>
+          <mat-grid-tile class="add-drawing-form__col">
+            <p>
+              <mat-form-field class='add-drawing-form__form-group'>
+                <mat-label>Category:</mat-label>
+                <app-category-select 
+                  [projectId]='drawing.project_id'
+                  formControlName="drawing_category_id">
+                </app-category-select>
+              </mat-form-field>
+            </p>
+          </mat-grid-tile>
+          <mat-grid-tile class="add-drawing-form__col">
+            <p>
+              <mat-form-field class='add-drawing-form__form-group'>
+                <mat-label>Drawing Title:</mat-label>
+                <input matInput [value]='drawing.drawing_title' formControlName='drawing_title'>
+              </mat-form-field>
+            </p>   
+          </mat-grid-tile>
+        </mat-grid-list>
+        <div fxLayout='row' fxFlexLayoutGap='16px' fxLayoutAlign='space-between flex-start'>
+          <div 
+            fxFlex='0 0 calc(50% - 8px)'  
+            class="add-drawing-form__col"
+          >
+            <p>
+              <mat-form-field class='add-drawing-form__form-group'>
+                <mat-label>Tender Drawing No:</mat-label>
+                <input matInput [value]='drawing.drawing_no' formControlName='drawing_no'>
+              </mat-form-field>
+            </p>   
+          </div>
+          <div 
+            fxFlex='0 0 calc(50% - 8px)'  
+            class="add-drawing-form__col"
+          >
+            <p>
+              <mat-form-field class='add-drawing-form__form-group'>
+                <mat-label>Current Drawing No:</mat-label>
+                <input matInput formControlName='current_drawing_no'>
+              </mat-form-field>
+              <mat-checkbox *ngIf='!view' [(ngModel)]='useCurrentDrawingNo' [ngModelOptions]="{standalone: true}" (ngModelChange)='onUseCurrentDrawingNoToggle($event)'>Use Current Tender Drawing No.</mat-checkbox>
+            </p>   
+          </div>
+        </div>
+        <mat-grid-list cols='2' rowHeight='70px' gutterSize='16px' *ngIf='!view'>
+          <mat-grid-tile class="add-drawing-form__col">
+            <p>
+              <mat-form-field class='add-drawing-form__form-group file-input-field'>
+                <mat-label>Upload Drawing:</mat-label>
+                <upload-input [formControl]='file'></upload-input>
+              </mat-form-field>
+            </p>   
+          </mat-grid-tile>
+        </mat-grid-list>
+        <div
+          *ngIf='view'
+        >
+          <button mat-raised-button color='primary' (click)='viewDrawing()' type='button'>View Drawing</button>
+        </div>
+        <mat-grid-list cols='2' rowHeight='150px' *ngIf='data.type'>
+          <mat-grid-tile class="add-drawing-form__col">
+            <div class="add-drawing-form__shop-drawing">
+              <p class="add-drawing-form__shop-drawing-title">{{ data.type.type }} Drawing</p>
+              <p>
+                <mat-form-field class='add-drawing-form__form-group'>
+                  <mat-label>{{ data.type.type }} Drawing Target Date:</mat-label>
+                  <input matInput [matDatepicker]="drawingTargetDate" formControlName='drawing_target_date'>
+                  <mat-datepicker-toggle matSuffix [for]="drawingTargetDate"></mat-datepicker-toggle>
+                  <mat-datepicker #drawingTargetDate></mat-datepicker>
+                </mat-form-field>
+            </p>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </div>
+    <div class="form-loading" *ngIf='loading'>
+      <mat-progress-spinner
+        mode='indeterminate'
+        diameter='40'
+      ></mat-progress-spinner>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions
+    fxLayout='row'
+    fxLayoutGap='16px'
+    fxLayoutAlign='space-between center'
+  >
+    <div class="mat-dialog-actions__buttons-left">
+      <button mat-raised-button color='warn' (click)='closeDialog($event)'>Cancel</button>&nbsp;
+      <button mat-raised-button color='primary' type='submit' *ngIf='!view' [disabled]='isDataSubmitting || loading'>Save</button>&nbsp;
+    </div>
+    <div class="mat-dialog-actions__buttons-right">
+      <button mat-raised-button color='accent' (click)='deleteDrawing($event)' [disabled]='loading' type='submit' *ngIf='!view'>Delete</button>
+    </div>
+  </mat-dialog-actions>
+</form>
+
+<swal
+  #successConfirmation
+  title='Success'
+  text='Drawing has been updated!'
+  icon='success'
+  (confirm)='handleFormSubmit()'
+></swal>
+
+<swal
+  #deleteConfirmation
+  title='Are you sure?'
+  text="This action is irreversible"
+  icon='warning'
+  (confirm)='handleDrawingDelete()'
+  showCancelButton='true'
+>
+</swal>
+
+<swal
+  #deleteSuccess
+  title='Success'
+  text="Drawing successfully deleted"
+  icon='success'
+>
+</swal>

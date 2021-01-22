@@ -1,0 +1,16 @@
+.request-table-filters {
+  padding-bottom: 1em;
+
+  &__search-term {
+    margin-right: 1em;
+  }
+
+  &__checkboxes {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__actions {
+    width: 100%;
+  }
+}

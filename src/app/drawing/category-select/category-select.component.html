@@ -1,0 +1,7 @@
+<div class='category-select'>
+  <mat-select [formControl]='category'>
+    <!-- Handle "All" option better -->
+    <mat-option *ngIf='shouldShowAllOption'>All</mat-option>
+    <mat-option *ngFor='let category of categories$ | async' [value]='category.id'>{{ category.categoryName }}</mat-option>
+  </mat-select>
+</div>

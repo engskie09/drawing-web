@@ -1,0 +1,27 @@
+table {
+  width: 100%;
+}
+
+.drafter-tasks {
+  &__actions {
+    text-align: right;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+}
+
+.drafter-tasks-table {
+  &__status {
+    &--rejected {
+      color: #f44336;
+    }
+
+    &--approved {
+      color: #218838;
+    }
+
+    &--completed {
+      color: #eead71;
+    }
+  }
+}

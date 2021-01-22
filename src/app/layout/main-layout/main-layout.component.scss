@@ -1,0 +1,22 @@
+#content {
+  min-height: calc(100vh - 64px);
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.drawing-main-table {
+  margin-left: -1em;
+  margin-right: -1em;
+}
+
+.main-layout {
+  &__content {
+    overflow: hidden;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  &__sidebar {
+    min-width: 300px;
+  }
+}

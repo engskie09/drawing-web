@@ -1,0 +1,14 @@
+<h4 class='summary-title'><mat-icon>list_alt</mat-icon>{{ title | titlecase }} Summary</h4>
+<mat-card class='summary-card'>
+  <mat-card-content>
+    <div class="summary">
+      <p><span>For approval:</span> {{ summary ? summary.for_approval : '-' }} </p>
+      <p><span>Total Drawings:</span> {{ summary ? summary.total_drawings : '-' }} </p>
+      <p><span>Submitted:</span> {{ summary ? summary.submitted : '-' }}</p>
+      <p><span>Resubmit:</span> {{ summary ? summary.re_submit : '-' }}</p>
+      <p><span>Approved:</span> {{ summary ? summary.approved : '-' }}</p>
+      <p><span>Rejected:</span> {{ summary ? summary.rejected : '-' }}</p>
+      <p><span>Total Submitted:</span> {{ summary ? summary.total_submitted : '-' }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>
